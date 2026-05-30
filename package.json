@@ -1,0 +1,10 @@
+{
+  "name": "tianjing-portfolio-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "田婧工业设计作品集静态网站",
+  "scripts": {
+    "start": "node serve.js",
+    "serve": "node serve.js"
+  }
+}
