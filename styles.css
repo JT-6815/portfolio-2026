@@ -1070,6 +1070,16 @@ textarea {
   height: auto;
 }
 
+.contact-panel-cover-title .contact-intro {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  line-height: 1.7;
+  text-align: left;
+  text-wrap: nowrap;
+}
+
 .contact-panel::before {
   content: "THANK YOU!";
   position: absolute;
