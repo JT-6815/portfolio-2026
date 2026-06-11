@@ -855,10 +855,6 @@ textarea {
   gap: 14px;
 }
 
-#project-sound-odd .project-visual {
-  align-self: start;
-}
-
 .project-preview {
   display: flex;
   align-items: center;
