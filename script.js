@@ -2,11 +2,18 @@
   const data = window.PORTFOLIO_DATA || {};
   const projects = Array.isArray(data.projects) ? data.projects : [];
   const visualCards = Array.isArray(data.visualCards) ? data.visualCards : [];
+  const ASSET_VERSION = "20260611-98cdf65";
 
   const projectList = document.getElementById("project-list");
   const actualProjectGrid = document.getElementById("actual-project-grid");
   const culturalProductGrid = document.getElementById("cultural-product-grid");
   const sectionIndex = document.getElementById("section-index");
+
+  function withVersion(url) {
+    if (!url) return url;
+    const joiner = url.includes("?") ? "&" : "?";
+    return `${url}${joiner}v=${ASSET_VERSION}`;
+  }
 
   function formatPageNumber(page) {
     return String(page).padStart(2, "0");
@@ -59,7 +66,7 @@
 
         <div class="project-visual">
           <div class="project-preview">
-            <img src="${project.preview}" alt="${project.title} 网页展示图" loading="lazy" decoding="async">
+            <img src="${withVersion(project.preview)}" alt="${project.title} 网页展示图" loading="lazy" decoding="async">
           </div>
           <div class="project-note">
             <span>原作品集页数：${project.pages[0]} - ${project.pages[project.pages.length - 1]}</span>
@@ -74,7 +81,7 @@
     return `
       <article class="visual-card reveal">
         <div class="visual-thumb">
-          <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async">
+          <img src="${withVersion(item.image)}" alt="${item.title}" loading="lazy" decoding="async">
         </div>
         <div class="visual-copy">
           <div class="visual-meta">${item.meta} · ${formatPageRange(item.pages)}</div>
@@ -139,7 +146,7 @@
     viewerTitle.textContent = activeProject.title;
     viewerSubtitle.textContent = `${activeProject.category} · 原作品集页面`;
     viewerStatus.textContent = `${activeIndex + 1} / ${activeProject.pages.length}`;
-    viewerImage.src = `web-renders/page-${pageFile}.jpg`;
+    viewerImage.src = withVersion(`web-renders/page-${pageFile}.jpg`);
     viewerImage.alt = `${activeProject.title} 第 ${page} 页`;
 
     Array.from(viewerThumbs.querySelectorAll(".thumb")).forEach((thumb, index) => {
@@ -155,7 +162,7 @@
 
     viewerThumbs.innerHTML = activeProject.pages.map((page, index) => `
       <button class="thumb ${index === activeIndex ? "is-active" : ""}" type="button" data-thumb-index="${index}">
-        <img src="web-renders/page-${formatPageNumber(page)}.jpg" alt="${activeProject.title} 第 ${page} 页缩略图" loading="lazy" decoding="async">
+        <img src="${withVersion(`web-renders/page-${formatPageNumber(page)}.jpg`)}" alt="${activeProject.title} 第 ${page} 页缩略图" loading="lazy" decoding="async">
         <span class="thumb-label">P${formatPageNumber(page)}</span>
       </button>
     `).join("");
