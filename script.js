@@ -1,10 +1,26 @@
-(function () {
+﻿(function () {
   const data = window.PORTFOLIO_DATA || {};
   const projects = Array.isArray(data.projects) ? data.projects : [];
   const visualCards = Array.isArray(data.visualCards) ? data.visualCards : [];
 
   const projectList = document.getElementById("project-list");
   const visualGrid = document.getElementById("visual-grid");
+  const sectionIndex = document.getElementById("section-index");
+
+  function formatPageNumber(page) {
+    return String(page).padStart(2, "0");
+  }
+
+  function formatPageRange(pages) {
+    if (!Array.isArray(pages) || !pages.length) return "";
+    if (pages.length === 1) return `P${formatPageNumber(pages[0])}`;
+    return `P${formatPageNumber(pages[0])}-${formatPageNumber(pages[pages.length - 1])}`;
+  }
+
+  function renderSectionIndex() {
+    if (!sectionIndex) return;
+    sectionIndex.innerHTML = projects.map((_, index) => `<span>${String(index + 1).padStart(2, "0")}</span>`).join("");
+  }
 
   function renderProjects() {
     projectList.innerHTML = projects.map((project) => `
@@ -59,15 +75,19 @@
           <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async">
         </div>
         <div class="visual-copy">
-          <div class="visual-meta">${item.meta}</div>
+          <div class="visual-meta">${item.meta} · ${formatPageRange(item.pages)}</div>
           <h3>${item.title}</h3>
           <p>${item.summary}</p>
-          <button class="button button-secondary" type="button" data-open-project="${item.projectId}" data-open-page="${item.page}">查看对应作品页</button>
+          <div class="visual-actions">
+            <button class="button button-secondary" type="button" data-open-card="${item.id}">查看作品页</button>
+            ${item.externalUrl ? `<a class="button button-secondary" href="${item.externalUrl}" target="_blank" rel="noreferrer">${item.externalLabel || "延伸阅读"}</a>` : ""}
+          </div>
         </div>
       </article>
     `).join("");
   }
 
+  renderSectionIndex();
   renderProjects();
   renderVisualCards();
 
@@ -87,11 +107,15 @@
     return projects.find((project) => project.id === projectId) || null;
   }
 
+  function getCardById(cardId) {
+    return visualCards.find((item) => item.id === cardId) || null;
+  }
+
   function updateViewer() {
     if (!activeProject) return;
 
     const page = activeProject.pages[activeIndex];
-    const pageFile = String(page).padStart(2, "0");
+    const pageFile = formatPageNumber(page);
     viewerTitle.textContent = activeProject.title;
     viewerSubtitle.textContent = `${activeProject.category} · 原作品集页面`;
     viewerStatus.textContent = `${activeIndex + 1} / ${activeProject.pages.length}`;
@@ -111,24 +135,35 @@
 
     viewerThumbs.innerHTML = activeProject.pages.map((page, index) => `
       <button class="thumb ${index === activeIndex ? "is-active" : ""}" type="button" data-thumb-index="${index}">
-        <img src="web-renders/page-${String(page).padStart(2, "0")}.jpg" alt="${activeProject.title} 第 ${page} 页缩略图" loading="lazy" decoding="async">
-        <span class="thumb-label">P${String(page).padStart(2, "0")}</span>
+        <img src="web-renders/page-${formatPageNumber(page)}.jpg" alt="${activeProject.title} 第 ${page} 页缩略图" loading="lazy" decoding="async">
+        <span class="thumb-label">P${formatPageNumber(page)}</span>
       </button>
     `).join("");
   }
 
-  function openViewer(projectId, page) {
-    const project = getProjectById(projectId);
-    if (!project) return;
+  function openViewerWithEntry(entry, page) {
+    if (!entry || !Array.isArray(entry.pages) || !entry.pages.length) return;
 
-    activeProject = project;
-    activeIndex = Math.max(0, page ? project.pages.indexOf(page) : 0);
+    activeProject = {
+      title: entry.title,
+      category: entry.category || entry.meta || "作品页",
+      pages: entry.pages
+    };
+    activeIndex = Math.max(0, page ? activeProject.pages.indexOf(page) : 0);
     if (activeIndex < 0) activeIndex = 0;
 
     renderThumbs();
     updateViewer();
     viewer.classList.remove("is-hidden");
     document.body.style.overflow = "hidden";
+  }
+
+  function openViewer(projectId, page) {
+    openViewerWithEntry(getProjectById(projectId), page);
+  }
+
+  function openViewerForCard(cardId) {
+    openViewerWithEntry(getCardById(cardId));
   }
 
   function closeViewer() {
@@ -145,6 +180,12 @@
   }
 
   document.addEventListener("click", (event) => {
+    const cardButton = event.target.closest("[data-open-card]");
+    if (cardButton) {
+      openViewerForCard(cardButton.getAttribute("data-open-card"));
+      return;
+    }
+
     const openButton = event.target.closest("[data-open-project]");
     if (openButton) {
       const projectId = openButton.getAttribute("data-open-project");

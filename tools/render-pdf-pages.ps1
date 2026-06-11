@@ -14,18 +14,23 @@ $outputDir = Join-Path $projectRoot "renders"
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
 
 Add-Type -AssemblyName System.Runtime.WindowsRuntime
+$asTaskOp = [System.WindowsRuntimeSystemExtensions].GetMethods() | Where-Object {
+  $_.Name -eq "AsTask" -and
+  $_.GetParameters().Count -eq 1 -and
+  $_.GetParameters()[0].ParameterType.Name -eq "IAsyncOperation`1" -and
+  $_.GetGenericArguments().Count -eq 1
+} | Select-Object -First 1
 
-function Get-AsTaskMethod([string]$paramTypeName, [int]$genericCount) {
-  [System.WindowsRuntimeSystemExtensions].GetMethods() | Where-Object {
-    $_.Name -eq "AsTask" -and
-    $_.GetParameters().Count -eq 1 -and
-    $_.GetParameters()[0].ParameterType.Name -eq $paramTypeName -and
-    $_.GetGenericArguments().Count -eq $genericCount
-  } | Select-Object -First 1
+$asTaskAction = [System.WindowsRuntimeSystemExtensions].GetMethods() | Where-Object {
+  $_.Name -eq "AsTask" -and
+  $_.GetParameters().Count -eq 1 -and
+  $_.GetParameters()[0].ParameterType.Name -eq "IAsyncAction" -and
+  $_.GetGenericArguments().Count -eq 0
+} | Select-Object -First 1
+
+if (-not $asTaskOp -or -not $asTaskAction) {
+  throw "未找到 Windows Runtime AsTask 方法，请使用系统自带的 Windows PowerShell 运行此脚本。"
 }
-
-$asTaskOp = Get-AsTaskMethod "IAsyncOperation`1" 1
-$asTaskAction = Get-AsTaskMethod "IAsyncAction" 0
 
 function Await-Op($operation, $type) {
   $task = $asTaskOp.MakeGenericMethod($type).Invoke($null, @($operation))
