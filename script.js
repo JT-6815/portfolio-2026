@@ -221,6 +221,50 @@
     }
   });
 
+  const hero = document.querySelector(".hero");
+  if (hero) {
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let rafId = null;
+
+    function applyHeroMotion() {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+
+      hero.style.setProperty("--hero-shift-x", `${(currentX * 18).toFixed(2)}px`);
+      hero.style.setProperty("--hero-shift-y", `${(currentY * 10).toFixed(2)}px`);
+      hero.style.setProperty("--hero-tilt-x", `${(-currentY * 3.2).toFixed(2)}deg`);
+      hero.style.setProperty("--hero-tilt-y", `${(currentX * 4.2).toFixed(2)}deg`);
+
+      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+        rafId = requestAnimationFrame(applyHeroMotion);
+      } else {
+        rafId = null;
+      }
+    }
+
+    function queueHeroMotion() {
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyHeroMotion);
+      }
+    }
+
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      queueHeroMotion();
+    });
+
+    hero.addEventListener("pointerleave", () => {
+      targetX = 0;
+      targetY = 0;
+      queueHeroMotion();
+    });
+  }
+
   const revealItems = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
