@@ -40,6 +40,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   hanging-punctuation: allow-end;
+  line-break: strict;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.44), transparent 34%),
     linear-gradient(180deg, #f5ecde 0%, #efe4d4 100%);
@@ -260,6 +261,23 @@ textarea {
 .contact-meta dd {
   text-align: justify;
   text-justify: inter-ideograph;
+  text-wrap: pretty;
+}
+
+.eyebrow,
+.hero-quote,
+.button,
+.hero-pills span,
+.skills-grid span,
+.project-tags span,
+.project-heading h3,
+.visual-copy h3,
+.info-card h3,
+.about-copy h2,
+.section-heading h2,
+.visual-head h2,
+.contact-panel h2 {
+  text-wrap: balance;
 }
 
 .hero-pills {
@@ -297,6 +315,7 @@ textarea {
   border: 1px solid transparent;
   cursor: pointer;
   font-weight: 700;
+  text-align: center;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
 
@@ -550,6 +569,7 @@ textarea {
   margin: 0;
   padding-left: 18px;
   line-height: 1.8;
+  text-wrap: pretty;
 }
 
 .contact-strip {
