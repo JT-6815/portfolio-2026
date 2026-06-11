@@ -241,58 +241,6 @@
     }
   });
 
-  const hero = document.querySelector(".hero");
-  const heroTitleBlock = hero ? hero.querySelector(".hero-title-block") : null;
-  if (hero) {
-    let currentX = 0;
-    let currentY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let rafId = null;
-
-    function applyHeroMotion() {
-      currentX += (targetX - currentX) * 0.07;
-      currentY += (targetY - currentY) * 0.07;
-
-      hero.style.setProperty("--hero-shift-x", `${(currentX * 6).toFixed(2)}px`);
-      hero.style.setProperty("--hero-shift-y", `${(currentY * 5).toFixed(2)}px`);
-      hero.style.setProperty("--hero-tilt-x", "0deg");
-      hero.style.setProperty("--hero-tilt-y", "0deg");
-
-      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
-        rafId = requestAnimationFrame(applyHeroMotion);
-      } else {
-        rafId = null;
-      }
-    }
-
-    function queueHeroMotion() {
-      if (!rafId) {
-        rafId = requestAnimationFrame(applyHeroMotion);
-      }
-    }
-
-    hero.addEventListener("pointermove", (event) => {
-      const rect = hero.getBoundingClientRect();
-      const glowRect = heroTitleBlock ? heroTitleBlock.getBoundingClientRect() : rect;
-      const pointerX = Math.min(100, Math.max(0, ((event.clientX - glowRect.left) / glowRect.width) * 100));
-      const pointerY = Math.min(100, Math.max(0, ((event.clientY - glowRect.top) / glowRect.height) * 100));
-      targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-      targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-      hero.style.setProperty("--hero-pointer-x", `${pointerX.toFixed(2)}%`);
-      hero.style.setProperty("--hero-pointer-y", `${pointerY.toFixed(2)}%`);
-      queueHeroMotion();
-    });
-
-    hero.addEventListener("pointerleave", () => {
-      targetX = 0;
-      targetY = 0;
-      hero.style.setProperty("--hero-pointer-x", "50%");
-      hero.style.setProperty("--hero-pointer-y", "44%");
-      queueHeroMotion();
-    });
-  }
-
   const revealItems = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
