@@ -398,8 +398,34 @@ textarea {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 24px 20px 0;
+  padding: 10px 8px 0;
   isolation: isolate;
+}
+
+.portrait-frame::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: min(100%, 500px);
+  aspect-ratio: 0.92;
+  transform: translateX(-50%);
+  border-radius: 48% 48% 40% 40% / 40% 40% 34% 34%;
+  background:
+    linear-gradient(180deg, rgba(250, 244, 236, 0.98), rgba(236, 226, 210, 0.96)),
+    url("assets/paper-cover-2026.png");
+  background-position: center;
+  background-size: cover;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 24px 52px rgba(95, 64, 41, 0.12);
+  z-index: 0;
+}
+
+.portrait-paper,
+.portrait-blob,
+.portrait-glow {
+  display: none;
 }
 
 .portrait-paper {
@@ -446,12 +472,13 @@ textarea {
 .portrait-photo {
   position: relative;
   z-index: 3;
-  width: min(108%, 520px);
-  max-height: min(76vh, 720px);
-  margin-top: 52px;
+  width: min(122%, 590px);
+  max-height: min(82vh, 760px);
+  margin-top: 18px;
   object-fit: contain;
   object-position: center bottom;
-  transform: translateX(-10px);
+  transform: translateX(-4px) scale(1.06);
+  transform-origin: center bottom;
   filter: drop-shadow(0 22px 30px rgba(82, 52, 33, 0.18));
 }
 
@@ -1050,13 +1077,14 @@ textarea {
     min-height: min(72vh, 720px);
   }
 
-  .portrait-paper {
-    inset: 28px 10px 0;
+  .portrait-frame::before {
+    width: min(100%, 470px);
+    bottom: 6px;
   }
 
   .portrait-photo {
-    width: min(100%, 500px);
-    transform: translateX(-4px);
+    width: min(118%, 530px);
+    transform: translateX(-2px) scale(1.06);
   }
 
   .section-index {
@@ -1122,28 +1150,19 @@ textarea {
 
   .portrait-frame {
     min-height: auto;
-    padding: 18px 8px 0;
+    padding: 12px 0 0;
   }
 
-  .portrait-paper {
-    inset: 24px 6px 0;
-    border-radius: var(--radius-lg);
-  }
-
-  .portrait-blob {
-    width: min(100%, 420px);
-  }
-
-  .portrait-glow {
-    width: min(86%, 340px);
-    bottom: 22px;
+  .portrait-frame::before {
+    width: min(100%, 392px);
+    bottom: 4px;
   }
 
   .portrait-photo {
-    width: min(100%, 430px);
+    width: min(122%, 470px);
     max-height: none;
-    margin-top: 40px;
-    transform: translateX(-2px);
+    margin-top: 18px;
+    transform: translateX(0) scale(1.08);
   }
 
   .skills-grid,
