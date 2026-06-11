@@ -962,7 +962,10 @@ textarea {
 }
 
 .contact {
-  padding: 16px 0 70px;
+  min-height: calc(100svh - 112px);
+  display: grid;
+  align-items: center;
+  padding: 88px 0 72px;
 }
 
 .contact-panel {
@@ -971,11 +974,28 @@ textarea {
   padding: 36px;
 }
 
+.contact-panel.contact-panel-cover-title {
+  width: min(100%, 980px);
+  min-height: clamp(30rem, 72vh, 44rem);
+  margin: 0 auto;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  text-align: center;
+}
+
 .contact-panel-cover-title::before {
   content: none;
 }
 
 .contact-panel-cover-title h2 {
+  margin: 0 0 18px;
   line-height: 0;
 }
 
@@ -986,26 +1006,26 @@ textarea {
 }
 
 .contact-panel-cover-title .contact-intro {
-  width: fit-content;
-  max-width: 100%;
+  width: min(100%, 38rem);
+  max-width: min(100%, 38rem);
   margin: 0;
   font-size: clamp(0.8rem, 1.8vw, 1rem);
   line-height: 1.7;
   text-align: left;
   text-indent: 1em;
-  text-wrap: nowrap;
 }
 
 .contact-panel::before {
   content: "THANK YOU!";
   position: absolute;
-  right: -10px;
-  bottom: -18px;
+  left: 50%;
+  bottom: 10px;
   color: rgba(241, 93, 51, 0.08);
   font-family: "Bahnschrift", "Trebuchet MS", sans-serif;
   font-size: clamp(3rem, 10vw, 8rem);
   font-weight: 900;
   letter-spacing: -0.05em;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -1013,7 +1033,8 @@ textarea {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin: 28px 0 0;
+  width: min(100%, 920px);
+  margin: 28px auto 0;
 }
 
 .contact-meta div {
@@ -1405,6 +1426,15 @@ textarea {
     padding: 42px 0 52px;
   }
 
+  .contact {
+    min-height: auto;
+    padding: 42px 0 52px;
+  }
+
+  .contact-panel.contact-panel-cover-title {
+    min-height: auto;
+  }
+
   .hero-title-block {
     width: min(100%, 100%);
     min-height: clamp(12.5rem, 56vw, 18rem);
@@ -1489,6 +1519,10 @@ textarea {
   .project-visual,
   .contact-panel {
     padding: 20px;
+  }
+
+  .contact-panel.contact-panel-cover-title {
+    padding: 0;
   }
 
   .project-head {
