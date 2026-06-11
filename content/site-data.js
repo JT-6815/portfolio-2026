@@ -184,9 +184,7 @@
       summary: "围绕博物馆展陈信息与玲珑瓷工艺知识的转译，把地方文化内容转化为更轻盈的互动叙事体验，用游戏化方式连接用户与展陈信息。",
       meta: "07 文创产品设计",
       image: "web-renders/page-87.jpg",
-      pages: [87, 88],
-      externalLabel: "玲珑瓷的工艺介绍与转译",
-      externalUrl: "https://mp.weixin.qq.com/s/0Mot5pBk2uWXMi1BKU4mew"
+      pages: [87, 88]
     },
     {
       id: "bamboo-lamp",
@@ -194,7 +192,10 @@
       summary: "通过竹编肌理与弯月形光影关系强调材质本身的温度，补充展示我对材料氛围的表达。",
       meta: "07 文创产品设计",
       image: "web-renders/page-89.jpg",
-      pages: [89, 90]
+      pages: [89, 90],
+      externalLabel: "玲珑瓷的工艺介绍与转译",
+      externalUrl: "https://mp.weixin.qq.com/s/0Mot5pBk2uWXMi1BKU4mew",
+      externalVariant: "independent"
     }
   ]
 };

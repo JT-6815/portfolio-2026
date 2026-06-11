@@ -81,7 +81,12 @@
           <p>${item.summary}</p>
           <div class="visual-actions">
             <button class="button button-secondary" type="button" data-open-card="${item.id}">查看作品页</button>
-            ${item.externalUrl ? `<a class="button button-secondary" href="${item.externalUrl}" target="_blank" rel="noreferrer">${item.externalLabel || "延伸阅读"}</a>` : ""}
+            ${item.externalUrl ? `
+              <a class="button ${item.externalVariant === "independent" ? "button-link-standalone" : "button-secondary"}" href="${item.externalUrl}" target="_blank" rel="noreferrer">
+                ${item.externalVariant === "independent" ? `<span class="button-kicker">独立链接</span>` : ""}
+                <span>${item.externalLabel || "延伸阅读"}</span>
+              </a>
+            ` : ""}
           </div>
         </div>
       </article>
