@@ -214,11 +214,15 @@ textarea {
 .headline-name {
   display: block;
   margin-top: 0;
-  padding-left: clamp(4px, 0.8vw, 14px);
-  font-size: clamp(2.9rem, 7vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
+  width: min(100%, clamp(19rem, 40vw, 39rem));
+  padding-left: 0;
+  filter: drop-shadow(0 6px 14px rgba(240, 125, 42, 0.08));
+}
+
+.headline-name img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .hero-quote {
@@ -1197,7 +1201,7 @@ textarea {
   }
 
   .headline-name {
-    font-size: 2.6rem;
+    width: min(100%, 22rem);
   }
 
   .hero-quote {
