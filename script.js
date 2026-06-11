@@ -236,13 +236,13 @@
     let rafId = null;
 
     function applyHeroMotion() {
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
+      currentX += (targetX - currentX) * 0.05;
+      currentY += (targetY - currentY) * 0.05;
 
-      hero.style.setProperty("--hero-shift-x", `${(currentX * 18).toFixed(2)}px`);
-      hero.style.setProperty("--hero-shift-y", `${(currentY * 10).toFixed(2)}px`);
-      hero.style.setProperty("--hero-tilt-x", `${(-currentY * 3.2).toFixed(2)}deg`);
-      hero.style.setProperty("--hero-tilt-y", `${(currentX * 4.2).toFixed(2)}deg`);
+      hero.style.setProperty("--hero-shift-x", `${(currentX * 6).toFixed(2)}px`);
+      hero.style.setProperty("--hero-shift-y", `${(currentY * 4).toFixed(2)}px`);
+      hero.style.setProperty("--hero-tilt-x", "0deg");
+      hero.style.setProperty("--hero-tilt-y", "0deg");
 
       if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
         rafId = requestAnimationFrame(applyHeroMotion);
