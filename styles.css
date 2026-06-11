@@ -784,6 +784,9 @@ textarea {
 }
 
 .project-heading {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
   display: grid;
   gap: 10px;
 }
@@ -793,6 +796,15 @@ textarea {
   color: var(--ink-deep);
   font-size: clamp(1.85rem, 3vw, 3rem);
   line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.project-heading h3.project-title-justified {
+  text-align: justify;
+  text-justify: inter-ideograph;
+  text-align-last: justify;
+  letter-spacing: 0;
 }
 
 .project-subtitle {
@@ -883,6 +895,7 @@ textarea {
 }
 
 .visual {
+  width: min(1440px, calc(100vw - 48px));
   padding: 26px 0 56px;
 }
 
@@ -1480,6 +1493,7 @@ textarea {
 
   .project-head {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .project-note {

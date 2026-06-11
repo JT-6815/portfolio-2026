@@ -2,7 +2,7 @@
   const data = window.PORTFOLIO_DATA || {};
   const projects = Array.isArray(data.projects) ? data.projects : [];
   const visualCards = Array.isArray(data.visualCards) ? data.visualCards : [];
-  const ASSET_VERSION = "20260611-static1";
+  const ASSET_VERSION = "20260612-align3";
 
   const projectList = document.getElementById("project-list");
   const actualProjectGrid = document.getElementById("actual-project-grid");
@@ -114,9 +114,43 @@
     }
   }
 
+  function syncProjectTitleJustify() {
+    document.querySelectorAll(".project-heading h3").forEach((title) => {
+      title.classList.remove("project-title-justified");
+
+      const lineHeight = parseFloat(window.getComputedStyle(title).lineHeight);
+      if (!Number.isFinite(lineHeight) || lineHeight <= 0) return;
+
+      const titleHeight = title.getBoundingClientRect().height;
+      const lineCount = Math.round(titleHeight / lineHeight);
+      const text = (title.textContent || "").trim();
+      const isPureCjk = /^[\u3400-\u9fffA-Za-z0-9·\s]+$/.test(text) && !/[A-Za-z]/.test(text);
+      const compactText = text.replace(/\s+/g, "");
+      const averageCharsPerLine = compactText.length / Math.max(1, lineCount);
+      const canJustify = lineCount > 1 && isPureCjk && compactText.length >= 10 && averageCharsPerLine >= 8;
+
+      title.classList.toggle("project-title-justified", canJustify);
+    });
+  }
+
   renderSectionIndex();
   renderProjects();
   renderVisualCards();
+  syncProjectTitleJustify();
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => {
+      syncProjectTitleJustify();
+    });
+  }
+
+  let titleSyncFrame = 0;
+  window.addEventListener("resize", () => {
+    window.cancelAnimationFrame(titleSyncFrame);
+    titleSyncFrame = window.requestAnimationFrame(() => {
+      syncProjectTitleJustify();
+    });
+  }, { passive: true });
 
   const viewer = document.getElementById("viewer");
   const viewerTitle = document.getElementById("viewer-title");
