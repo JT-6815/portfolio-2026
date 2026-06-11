@@ -4,7 +4,8 @@
   const visualCards = Array.isArray(data.visualCards) ? data.visualCards : [];
 
   const projectList = document.getElementById("project-list");
-  const visualGrid = document.getElementById("visual-grid");
+  const actualProjectGrid = document.getElementById("actual-project-grid");
+  const culturalProductGrid = document.getElementById("cultural-product-grid");
   const sectionIndex = document.getElementById("section-index");
 
   function formatPageNumber(page) {
@@ -69,8 +70,8 @@
     `).join("");
   }
 
-  function renderVisualCards() {
-    visualGrid.innerHTML = visualCards.map((item) => `
+  function buildVisualCardMarkup(item) {
+    return `
       <article class="visual-card reveal">
         <div class="visual-thumb">
           <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async">
@@ -90,7 +91,20 @@
           </div>
         </div>
       </article>
-    `).join("");
+    `;
+  }
+
+  function renderVisualCards() {
+    const actualCards = visualCards.filter((item) => item.meta.startsWith("06"));
+    const culturalCards = visualCards.filter((item) => item.meta.startsWith("07"));
+
+    if (actualProjectGrid) {
+      actualProjectGrid.innerHTML = actualCards.map((item) => buildVisualCardMarkup(item)).join("");
+    }
+
+    if (culturalProductGrid) {
+      culturalProductGrid.innerHTML = culturalCards.map((item) => buildVisualCardMarkup(item)).join("");
+    }
   }
 
   renderSectionIndex();

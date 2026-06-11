@@ -166,7 +166,7 @@
       id: "yunbao",
       title: "云抱苔苔 拍拍灯",
       summary: "融合景宁畲族文化与苔藓意象的加湿照明产品，模型由 AI 辅助生成后继续修正并完成 3D 打印。",
-      meta: "07 文创产品设计",
+      meta: "06 实际项目",
       image: "web-renders/page-81.jpg",
       pages: [81, 82, 83]
     },
