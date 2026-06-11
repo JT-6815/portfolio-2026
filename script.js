@@ -2,7 +2,7 @@
   const data = window.PORTFOLIO_DATA || {};
   const projects = Array.isArray(data.projects) ? data.projects : [];
   const visualCards = Array.isArray(data.visualCards) ? data.visualCards : [];
-  const ASSET_VERSION = "20260611-98cdf65";
+  const ASSET_VERSION = "20260611-static1";
 
   const projectList = document.getElementById("project-list");
   const actualProjectGrid = document.getElementById("actual-project-grid");
