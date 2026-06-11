@@ -1056,6 +1056,20 @@ textarea {
   padding: 36px;
 }
 
+.contact-panel-cover-title::before {
+  content: none;
+}
+
+.contact-panel-cover-title h2 {
+  line-height: 0;
+}
+
+.contact-panel-cover-title h2 img {
+  display: block;
+  width: min(100%, clamp(18rem, 62vw, 40rem));
+  height: auto;
+}
+
 .contact-panel::before {
   content: "THANK YOU!";
   position: absolute;
