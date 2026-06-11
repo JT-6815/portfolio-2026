@@ -176,7 +176,7 @@
       summary: "延续品牌外观 DNA 的情感化产品延伸方案，强调色彩、造型与等待感带来的情绪连接。",
       meta: "07 文创产品设计",
       image: "web-renders/page-85.jpg",
-      pages: [85, 86]
+      pages: [85, 84, 86]
     },
     {
       id: "yunhe-game",

@@ -13,8 +13,9 @@
 
   function formatPageRange(pages) {
     if (!Array.isArray(pages) || !pages.length) return "";
-    if (pages.length === 1) return `P${formatPageNumber(pages[0])}`;
-    return `P${formatPageNumber(pages[0])}-${formatPageNumber(pages[pages.length - 1])}`;
+    const sortedPages = [...pages].sort((a, b) => a - b);
+    if (sortedPages.length === 1) return `P${formatPageNumber(sortedPages[0])}`;
+    return `P${formatPageNumber(sortedPages[0])}-${formatPageNumber(sortedPages[sortedPages.length - 1])}`;
   }
 
   function renderSectionIndex() {
