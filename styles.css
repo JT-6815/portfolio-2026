@@ -996,6 +996,9 @@ textarea {
 
 .contact-panel-cover-title h2 {
   margin: 0 0 18px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   line-height: 0;
 }
 
@@ -1003,6 +1006,7 @@ textarea {
   display: block;
   width: min(100%, clamp(18rem, 62vw, 40rem));
   height: auto;
+  margin: 0 auto;
 }
 
 .contact-panel-cover-title .contact-intro {
@@ -1042,6 +1046,7 @@ textarea {
   border: 1px solid rgba(241, 93, 51, 0.12);
   border-radius: var(--radius-md);
   background: rgba(255, 247, 237, 0.72);
+  text-align: left;
 }
 
 .contact-meta dt {
