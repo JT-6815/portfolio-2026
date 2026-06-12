@@ -175,7 +175,7 @@
   }
 
   function initMotionCards(gsapLib, reduceMotion) {
-    const cards = Array.from(document.querySelectorAll(".info-card, .project-copy, .project-visual, .visual-card, .contact-meta div"));
+    const cards = Array.from(document.querySelectorAll(".info-card, .project-copy, .project-visual, .visual-card, .contact-meta div, .brand, .nav"));
     const cleanups = [];
     const hasFinePointer = window.matchMedia("(pointer:fine)").matches;
 
@@ -195,34 +195,34 @@
 
       if (reduceMotion || !hasFinePointer) {
         gsapLib.set(card, {
-          "--motion-outline-opacity": 0.56,
-          "--motion-sheen-opacity": 0.16
+          "--motion-outline-opacity": 0.72,
+          "--motion-sheen-opacity": 0.22
         });
         return;
       }
 
-      gsapLib.set(glow, { x: 0, y: 0, autoAlpha: 0, scale: 0.68 });
+      gsapLib.set(glow, { x: 0, y: 0, autoAlpha: 0, scale: 0.62 });
       gsapLib.set(card, {
-        "--motion-outline-opacity": 0.48,
-        "--motion-sheen-opacity": 0.16
+        "--motion-outline-opacity": 0.62,
+        "--motion-sheen-opacity": 0.26
       });
 
-      const glowXTo = gsapLib.quickTo(glow, "x", { duration: 0.38, ease: "power3.out" });
-      const glowYTo = gsapLib.quickTo(glow, "y", { duration: 0.38, ease: "power3.out" });
+      const glowXTo = gsapLib.quickTo(glow, "x", { duration: 0.22, ease: "power3.out" });
+      const glowYTo = gsapLib.quickTo(glow, "y", { duration: 0.22, ease: "power3.out" });
 
       const onEnter = () => {
         gsapLib.to(card, {
-          y: -4,
-          "--motion-outline-opacity": 1.06,
-          "--motion-sheen-opacity": 0.34,
-          duration: 0.35,
+          y: -5,
+          "--motion-outline-opacity": 1.18,
+          "--motion-sheen-opacity": 0.44,
+          duration: 0.22,
           ease: "power2.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
           autoAlpha: 1,
-          scale: 1,
-          duration: 0.35,
+          scale: 1.04,
+          duration: 0.24,
           ease: "power2.out",
           overwrite: "auto"
         });
@@ -241,16 +241,16 @@
       const onLeave = () => {
         gsapLib.to(card, {
           y: 0,
-          "--motion-outline-opacity": 0.48,
-          "--motion-sheen-opacity": 0.16,
-          duration: 0.42,
+          "--motion-outline-opacity": 0.62,
+          "--motion-sheen-opacity": 0.26,
+          duration: 0.28,
           ease: "power3.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
           autoAlpha: 0,
-          scale: 0.7,
-          duration: 0.35,
+          scale: 0.66,
+          duration: 0.24,
           ease: "power2.out",
           overwrite: "auto"
         });
