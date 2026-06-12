@@ -655,6 +655,15 @@ textarea {
   text-align: center;
 }
 
+.about-visual-contact {
+  width: min(100%, 480px);
+  margin: 0 auto;
+}
+
+.about-visual-contact .about-contact-list {
+  text-align: left;
+}
+
 .about-profile-caption h2,
 .section-heading h2,
 .visual-head h2,
@@ -681,14 +690,6 @@ textarea {
   font-size: 1.08rem;
   font-weight: 800;
   line-height: 1.5;
-}
-
-.about-profile-note {
-  margin: 14px 0 0;
-  color: var(--ink);
-  font-size: 0.98rem;
-  line-height: 1.9;
-  text-align: center;
 }
 
 .about-copy {
