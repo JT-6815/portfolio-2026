@@ -21,6 +21,12 @@
   --container: min(1240px, calc(100vw - 48px));
 }
 
+@font-face {
+  font-family: "Bauhaus93Embed";
+  src: url("assets/fonts/bauhaus-93.ttf") format("truetype");
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -711,10 +717,11 @@ textarea {
   background: linear-gradient(90deg, #f36c18 0%, #f7bc49 58%, #f08f3a 100%);
   -webkit-background-clip: text;
   color: transparent;
-  font-family: "Bahnschrift", "Trebuchet MS", sans-serif;
+  font-family: "Bauhaus93Embed", "Bauhaus 93", "Trebuchet MS", sans-serif;
   font-size: clamp(0.88rem, 1.9vw, 1.28rem);
   font-weight: 800;
   line-height: 1.1;
+  letter-spacing: 0.02em;
 }
 
 .about-page-bottom {
@@ -733,10 +740,11 @@ textarea {
   background: linear-gradient(90deg, var(--orange-deep) 0%, var(--orange-deep) 48%, var(--coral) 74%, var(--coral) 100%);
   -webkit-background-clip: text;
   color: transparent;
+  font-family: "Bauhaus93Embed", "Bauhaus 93", "Trebuchet MS", sans-serif;
   font-size: clamp(2.5rem, 5.4vw, 4.4rem);
   font-weight: 900;
   line-height: 0.9;
-  letter-spacing: -0.06em;
+  letter-spacing: 0.01em;
 }
 
 .about-page-arrow {
