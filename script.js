@@ -563,29 +563,18 @@
             duration: 0.86,
             ease: "back.out(1.2)"
           }, 0.32)
-          .from(".hero-quote", {
-            y: 14,
-            autoAlpha: 0,
-            scale: 0.96,
-            duration: 0.65
-          }, 0.56)
-          .from(".hero-intro", {
-            y: 20,
-            autoAlpha: 0,
-            duration: 0.7
-          }, 0.66)
           .from(".hero-pills span", {
             y: 16,
             autoAlpha: 0,
             duration: 0.55,
             stagger: 0.06
-          }, 0.76)
+          }, 0.62)
           .from(".hero-actions .button", {
             y: 12,
             autoAlpha: 0,
             duration: 0.5,
             stagger: 0.08
-          }, 0.86);
+          }, 0.72);
 
         gsapLib.to(".hero-ambient-blob-a", {
           x: 22,
@@ -623,14 +612,6 @@
             ease: "sine.inOut"
           });
         }
-        gsapLib.to(".hero-quote", {
-          y: -3,
-          duration: 3.2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-
         if (isDesktop && hasFinePointer && heroTitleBlock && heroAmbient && heroLockup) {
           const ambientXTo = gsapLib.quickTo(heroAmbient, "x", { duration: 0.9, ease: "power3.out" });
           const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.9, ease: "power3.out" });
