@@ -556,24 +556,26 @@ textarea {
 
 .about {
   display: grid;
-  grid-template-columns: 0.82fr 1.18fr;
-  gap: 40px;
+  grid-template-columns: minmax(320px, 0.78fr) minmax(0, 1.22fr);
+  gap: 36px;
   align-items: start;
   padding: 36px 0 48px;
 }
 
 .about-visual {
   position: relative;
+  display: grid;
+  gap: 18px;
 }
 
 .portrait-frame {
   position: sticky;
   top: 108px;
-  min-height: min(78vh, 760px);
+  min-height: min(70vh, 640px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 10px 8px 0;
+  padding: 10px 0 0;
   isolation: isolate;
 }
 
@@ -581,7 +583,7 @@ textarea {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 8px;
+  bottom: 10px;
   width: min(100%, 500px);
   aspect-ratio: 0.92;
   transform: translateX(-50%);
@@ -647,52 +649,137 @@ textarea {
 .portrait-photo {
   position: relative;
   z-index: 3;
-  width: min(122%, 590px);
-  max-height: min(82vh, 760px);
+  width: min(108%, 500px);
+  max-height: min(72vh, 640px);
   margin-top: 18px;
   object-fit: contain;
   object-position: center bottom;
-  transform: translateX(-4px) scale(1.06);
+  transform: translateX(-2px) scale(1);
   transform-origin: center bottom;
   filter: drop-shadow(0 22px 30px rgba(82, 52, 33, 0.18));
 }
 
-.about-copy h2,
+.about-profile-caption {
+  width: min(100%, 480px);
+  position: relative;
+  z-index: 5;
+  margin: -6px auto 0;
+  padding: 0 12px;
+  text-align: center;
+}
+
+.about-profile-caption h2,
 .section-heading h2,
 .visual-head h2,
 .contact-panel h2 {
   margin: 0 0 18px;
-  color: var(--ink-deep);
+  color: var(--orange-deep);
   font-size: clamp(2.2rem, 4.8vw, 4.3rem);
-  line-height: 1.08;
+  line-height: 1.02;
   letter-spacing: -0.04em;
+}
+
+.about-profile-role {
+  margin: 0 0 12px;
+  color: #db9d8d;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.about-profile-major {
+  margin: 0;
+  color: var(--orange-deep);
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.about-profile-note {
+  margin: 14px 0 0;
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.9;
+  text-align: center;
+}
+
+.about-copy {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding-top: 4px;
 }
 
 .about-lead {
   color: var(--ink-deep);
-  font-size: 1.08rem;
+  max-width: 60ch;
+  margin: 0;
+  font-size: 1.02rem;
 }
 
-.skills-grid {
+.about-resume-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 26px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 22px;
 }
 
-.skills-grid span {
+.about-resume-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.about .info-card h3 {
   display: flex;
   align-items: center;
-  min-height: 68px;
-  color: var(--ink-deep);
-  font-weight: 700;
+  gap: 12px;
+  margin: 0 0 14px;
 }
 
-.info-grid {
+.about .info-card h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(241, 93, 51, 0.28), rgba(241, 93, 51, 0));
+}
+
+.about-facts,
+.about-contact-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-  margin-top: 28px;
+  gap: 0;
+  margin: 0;
+}
+
+.about-facts div,
+.about-contact-list div {
+  display: grid;
+  gap: 6px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(241, 93, 51, 0.12);
+}
+
+.about-facts div:first-child,
+.about-contact-list div:first-child {
+  padding-top: 2px;
+  border-top: 0;
+}
+
+.about-facts dt,
+.about-contact-list dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about-facts dd,
+.about-contact-list dd {
+  margin: 0;
+  color: var(--ink-deep);
+  font-weight: 700;
+  line-height: 1.75;
 }
 
 .info-card,
@@ -784,20 +871,63 @@ textarea {
   text-wrap: pretty;
 }
 
-.contact-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+.ability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
 }
 
-.contact-strip a,
-.contact-strip span {
-  padding: 12px 16px;
-  border-radius: 999px;
-  background: rgba(255, 245, 236, 0.82);
+.ability-item,
+.software-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 124px;
+  padding: 10px 8px 4px;
+  border-radius: 18px;
+  border: 0;
+  background: transparent;
   color: var(--ink-deep);
   font-weight: 700;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.software-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+}
+
+.ability-icon-image {
+  width: auto;
+  height: 72px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(241, 93, 51, 0.08));
+}
+
+.software-icon-image {
+  width: auto;
+  height: 56px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 10px rgba(79, 55, 44, 0.08));
+}
+
+.ability-item span:last-child,
+.software-chip span:last-child {
+  max-width: 15ch;
+}
+
+.software-chip {
+  min-height: 98px;
+  padding-top: 2px;
+}
+
+.about-contact-list a {
+  color: inherit;
 }
 
 .section-heading {
@@ -1671,12 +1801,16 @@ textarea {
     transform: translateX(0) scale(1.08);
   }
 
-  .skills-grid,
-  .info-grid,
+  .about-resume-grid,
+  .ability-grid,
   .project-highlights,
   .contact-meta,
   .visual-grid {
     grid-template-columns: 1fr;
+  }
+
+  .software-chip-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .viewer-panel {
@@ -1708,6 +1842,18 @@ textarea {
 
   .hero-quote {
     font-size: 1rem;
+  }
+
+  .software-chip-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ability-icon-image {
+    height: 60px;
+  }
+
+  .software-icon-image {
+    height: 48px;
   }
 
   .number-badge {
