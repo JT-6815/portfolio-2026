@@ -37,6 +37,8 @@
         "18cm × 12cm 机身，集成拆卸采声模块",
         "草模、包装与海报同步推演体验"
       ],
+      externalLabel: "模拟kickstarter众筹网站的产品介绍页",
+      externalUrl: "https://jt-6815.github.io/odd/",
       preview: "web-renders/page-16.jpg",
       pages: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     },
