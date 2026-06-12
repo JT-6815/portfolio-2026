@@ -299,6 +299,118 @@
       gsapLib.set(heroCopy, { autoAlpha: 1, y: 0 });
     }
 
+    function initAboutPageRecreationMotion(reduceMotion) {
+      const scene = document.querySelector(".about-page-recreation");
+      if (!scene) return null;
+
+      const ribbons = Array.from(scene.querySelectorAll(".about-page-ribbon"));
+      const drops = Array.from(scene.querySelectorAll(".about-page-drop"));
+      const cleanupFns = [];
+
+      if (reduceMotion) {
+        gsapLib.set(ribbons, { clearProps: "transform", autoAlpha: 1 });
+        gsapLib.set(drops, { clearProps: "transform", autoAlpha: 1 });
+        return () => cleanupFns.forEach((cleanup) => cleanup());
+      }
+
+      gsapLib.set(ribbons, { autoAlpha: 0, x: 0, y: 0 });
+      gsapLib.set(drops, {
+        autoAlpha: 0,
+        y: -18,
+        rotation: (index) => index % 2 === 0 ? -1.4 : 1.2
+      });
+
+      const introTimeline = gsapLib.timeline({
+        paused: true,
+        defaults: { ease: "power3.out" }
+      });
+
+      introTimeline
+        .fromTo(ribbons, {
+          scaleX: 0.9,
+          transformOrigin: "left center"
+        }, {
+          autoAlpha: 1,
+          scaleX: 1,
+          duration: 0.92,
+          stagger: 0.08
+        }, 0)
+        .to(drops, {
+          autoAlpha: 1,
+          y: 0,
+          rotation: 0,
+          duration: 0.82,
+          ease: "back.out(1.05)",
+          stagger: 0.05
+        }, 0.14);
+
+      const loopTweens = [
+        gsapLib.to(".about-page-ribbon-top", {
+          x: 16,
+          duration: 7.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        }),
+        gsapLib.to(".about-page-ribbon-line", {
+          x: -12,
+          duration: 6.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        }),
+        gsapLib.to(".about-page-ribbon-bottom", {
+          x: 18,
+          duration: 8.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        }),
+        gsapLib.to(".about-page-hello", {
+          y: -3,
+          duration: 3.6,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        })
+      ];
+
+      loopTweens.forEach((tween) => tween.pause(0));
+
+      const playLoops = () => loopTweens.forEach((tween) => tween.play());
+      const pauseLoops = () => loopTweens.forEach((tween) => tween.pause());
+
+      if (ScrollTriggerLib) {
+        let introPlayed = false;
+        const trigger = ScrollTriggerLib.create({
+          trigger: scene,
+          start: "top 88%",
+          end: "bottom top",
+          onEnter: () => {
+            if (!introPlayed) {
+              introPlayed = true;
+              introTimeline.play(0);
+            }
+            playLoops();
+          },
+          onEnterBack: playLoops,
+          onLeave: pauseLoops,
+          onLeaveBack: pauseLoops
+        });
+        cleanupFns.push(() => trigger.kill());
+      } else {
+        introTimeline.play(0);
+        playLoops();
+      }
+
+      cleanupFns.push(() => {
+        introTimeline.kill();
+        loopTweens.forEach((tween) => tween.kill());
+      });
+
+      return () => cleanupFns.forEach((cleanup) => cleanup());
+    }
+
     const mm = gsapLib.matchMedia();
     mm.add(
       {
@@ -314,6 +426,8 @@
         if (reduceMotion) {
           gsapLib.set(".reveal", { clearProps: "all", autoAlpha: 1, y: 0 });
           document.querySelectorAll(".reveal").forEach((item) => item.classList.add("is-visible"));
+          const aboutPageCleanup = initAboutPageRecreationMotion(true);
+          if (aboutPageCleanup) cleanupFns.push(aboutPageCleanup);
           const motionCleanup = initMotionCards(gsapLib, true);
           if (motionCleanup) cleanupFns.push(motionCleanup);
           return () => cleanupFns.forEach((cleanup) => cleanup());
@@ -338,6 +452,9 @@
         } else {
           initFallbackReveal();
         }
+
+        const aboutPageCleanup = initAboutPageRecreationMotion(false);
+        if (aboutPageCleanup) cleanupFns.push(aboutPageCleanup);
 
         const heroIntroTimeline = gsapLib.timeline({
           defaults: { ease: "power3.out" }
