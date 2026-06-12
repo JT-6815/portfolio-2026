@@ -658,7 +658,7 @@ textarea {
 
 .about-page-quote {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   color: #f6a100;
   font-size: clamp(4rem, 7vw, 5.8rem);
   font-weight: 800;
@@ -671,8 +671,8 @@ textarea {
 }
 
 .about-page-quote-right {
-  right: clamp(6px, 2vw, 18px);
-  top: clamp(52px, 7.2vw, 84px);
+  right: clamp(-2px, 1vw, 12px);
+  top: clamp(50px, 6.9vw, 82px);
 }
 
 .about-page-headline {
@@ -2782,8 +2782,8 @@ textarea {
   }
 
   .about-page-quote-right {
-    right: 6px;
-    top: 58px;
+    right: 0;
+    top: 56px;
   }
 
   .about-page-subtext {
