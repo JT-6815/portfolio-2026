@@ -606,6 +606,8 @@ textarea {
   display: block;
   border-radius: 999px;
   pointer-events: none;
+  will-change: clip-path, transform, opacity, background-position;
+  animation-play-state: paused;
 }
 
 .about-page-ribbon-top {
@@ -616,6 +618,7 @@ textarea {
   background-position: 0% 50%;
   background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 213, 132, 0.62) 0%, rgba(255, 224, 168, 0.46) 30%, rgba(255, 241, 224, 0.14) 80%, rgba(255, 241, 224, 0) 100%);
+  animation: aboutRibbonFlowForward 8.4s linear infinite;
 }
 
 .about-page-ribbon-line {
@@ -626,6 +629,7 @@ textarea {
   background-position: 100% 50%;
   background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 214, 150, 0.04) 0%, rgba(255, 201, 125, 0.24) 22%, rgba(243, 146, 86, 0.74) 100%);
+  animation: aboutRibbonFlowReverse 7.2s linear infinite;
 }
 
 .about-page-ribbon-bottom {
@@ -636,6 +640,11 @@ textarea {
   background-position: 0% 50%;
   background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 206, 126, 0.24) 0%, rgba(247, 157, 113, 0.46) 34%, rgba(255, 241, 224, 0.08) 94%, rgba(255, 241, 224, 0) 100%);
+  animation: aboutRibbonFlowForward 9.2s linear infinite;
+}
+
+.about-page-recreation.is-flowing .about-page-ribbon {
+  animation-play-state: running;
 }
 
 .about-page-quote {
@@ -683,7 +692,14 @@ textarea {
   font-size: clamp(5rem, 7.8vw, 8.6rem);
   font-weight: 800;
   line-height: 0.88;
-  letter-spacing: -0.08em;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: clamp(0.08em, 0.22vw, 0.14em);
+  letter-spacing: 0;
+}
+
+.about-page-headline-main span {
+  display: block;
 }
 
 .about-page-subline {
@@ -2358,6 +2374,24 @@ textarea {
   }
   50% {
     transform: translateY(-10px) rotate(var(--card-rotation, 0deg));
+  }
+}
+
+@keyframes aboutRibbonFlowForward {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 156% 50%;
+  }
+}
+
+@keyframes aboutRibbonFlowReverse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -56% 50%;
   }
 }
 

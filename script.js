@@ -312,11 +312,13 @@
       const cleanupFns = [];
 
       if (reduceMotion) {
+        scene.classList.remove("is-flowing");
         gsapLib.set(ribbons, { clearProps: "transform", autoAlpha: 1 });
         gsapLib.set([...headlineDrops, ...accentDrops], { clearProps: "transform", autoAlpha: 1 });
         return () => cleanupFns.forEach((cleanup) => cleanup());
       }
 
+      scene.classList.remove("is-flowing");
       gsapLib.set(ribbons, { autoAlpha: 0 });
       gsapLib.set(headlineDrops, {
         autoAlpha: 0,
@@ -412,24 +414,6 @@
         }, 0.42);
 
       const loopTweens = [
-        gsapLib.to(".about-page-ribbon-top", {
-          backgroundPosition: "156% 50%",
-          duration: 8.4,
-          repeat: -1,
-          ease: "none"
-        }),
-        gsapLib.to(".about-page-ribbon-line", {
-          backgroundPosition: "-56% 50%",
-          duration: 7.2,
-          repeat: -1,
-          ease: "none"
-        }),
-        gsapLib.to(".about-page-ribbon-bottom", {
-          backgroundPosition: "158% 50%",
-          duration: 9.2,
-          repeat: -1,
-          ease: "none"
-        }),
         gsapLib.to(".about-page-hello", {
           y: -3,
           duration: 3.6,
@@ -452,8 +436,14 @@
 
       loopTweens.forEach((tween) => tween.pause(0));
 
-      const playLoops = () => loopTweens.forEach((tween) => tween.play());
-      const pauseLoops = () => loopTweens.forEach((tween) => tween.pause());
+      const playLoops = () => {
+        scene.classList.add("is-flowing");
+        loopTweens.forEach((tween) => tween.play());
+      };
+      const pauseLoops = () => {
+        scene.classList.remove("is-flowing");
+        loopTweens.forEach((tween) => tween.pause());
+      };
 
       if (ScrollTriggerLib) {
         let introPlayed = false;
@@ -479,6 +469,7 @@
       }
 
       cleanupFns.push(() => {
+        scene.classList.remove("is-flowing");
         introTimeline.kill();
         loopTweens.forEach((tween) => tween.kill());
       });
