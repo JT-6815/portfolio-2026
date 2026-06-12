@@ -657,10 +657,15 @@ textarea {
 
 .about-visual-contact {
   width: min(100%, 480px);
-  margin: 0 auto;
+  margin: 2px auto 0;
+  padding: 0 12px;
 }
 
 .about-visual-contact .about-contact-list {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  gap: 14px;
   text-align: left;
 }
 
@@ -708,8 +713,8 @@ textarea {
 
 .about-resume-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 22px;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  gap: 26px;
 }
 
 .about-resume-column {
@@ -884,8 +889,13 @@ textarea {
 
 .software-chip-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px 14px;
+}
+
+.about-capability-card,
+.about-software-card {
+  padding-inline: 28px;
 }
 
 .ability-icon-image {
@@ -922,6 +932,35 @@ textarea {
 
 .about-contact-list a {
   color: inherit;
+}
+
+.about-visual-contact .about-contact-list div {
+  grid-template-columns: 16px minmax(0, auto);
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border-top: 0;
+}
+
+.about-visual-contact .about-contact-list dt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  line-height: 0;
+}
+
+.about-visual-contact .about-contact-list dd {
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.about-contact-icon-image {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transform: translateY(1px);
 }
 
 .section-heading {
