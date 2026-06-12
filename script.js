@@ -158,6 +158,317 @@
     });
   }, { passive: true });
 
+  function initFallbackReveal() {
+    const revealItems = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.14,
+      rootMargin: "0px 0px -40px 0px"
+    });
+
+    revealItems.forEach((item) => observer.observe(item));
+  }
+
+  function initMotionCards(gsapLib, reduceMotion) {
+    const cards = Array.from(document.querySelectorAll(".info-card, .project-copy, .project-visual, .visual-card, .contact-meta div"));
+    const cleanups = [];
+    const hasFinePointer = window.matchMedia("(pointer:fine)").matches;
+
+    cards.forEach((card) => {
+      if (card.dataset.motionCardReady !== "true") {
+        card.dataset.motionCardReady = "true";
+        card.classList.add("motion-card");
+
+        const glowNode = document.createElement("span");
+        glowNode.className = "motion-card-glow";
+        glowNode.setAttribute("aria-hidden", "true");
+        card.prepend(glowNode);
+      }
+
+      const glow = card.querySelector(".motion-card-glow");
+      if (!glow) return;
+
+      if (reduceMotion || !hasFinePointer) {
+        gsapLib.set(card, { "--motion-outline-opacity": 0.42 });
+        return;
+      }
+
+      gsapLib.set(glow, { x: 0, y: 0, autoAlpha: 0, scale: 0.68 });
+      gsapLib.set(card, { "--motion-outline-opacity": 0.34 });
+
+      const glowXTo = gsapLib.quickTo(glow, "x", { duration: 0.38, ease: "power3.out" });
+      const glowYTo = gsapLib.quickTo(glow, "y", { duration: 0.38, ease: "power3.out" });
+
+      const onEnter = () => {
+        gsapLib.to(card, {
+          y: -4,
+          "--motion-outline-opacity": 0.92,
+          duration: 0.35,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+        gsapLib.to(glow, {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.35,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      };
+
+      const onMove = (event) => {
+        const rect = card.getBoundingClientRect();
+        glowXTo(event.clientX - rect.left - rect.width / 2);
+        glowYTo(event.clientY - rect.top - rect.height / 2);
+      };
+
+      const onLeave = () => {
+        gsapLib.to(card, {
+          y: 0,
+          "--motion-outline-opacity": 0.34,
+          duration: 0.42,
+          ease: "power3.out",
+          overwrite: "auto"
+        });
+        gsapLib.to(glow, {
+          autoAlpha: 0,
+          scale: 0.7,
+          duration: 0.35,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+        glowXTo(0);
+        glowYTo(0);
+      };
+
+      card.addEventListener("pointerenter", onEnter);
+      card.addEventListener("pointermove", onMove);
+      card.addEventListener("pointerleave", onLeave);
+
+      cleanups.push(() => {
+        card.removeEventListener("pointerenter", onEnter);
+        card.removeEventListener("pointermove", onMove);
+        card.removeEventListener("pointerleave", onLeave);
+      });
+    });
+
+    return () => cleanups.forEach((cleanup) => cleanup());
+  }
+
+  function initGsapMotion() {
+    const gsapLib = window.gsap;
+    if (!gsapLib) {
+      initFallbackReveal();
+      return;
+    }
+
+    const ScrollTriggerLib = window.ScrollTrigger;
+    if (ScrollTriggerLib) {
+      gsapLib.registerPlugin(ScrollTriggerLib);
+    }
+
+    const heroCopy = document.querySelector(".hero-copy");
+    const heroTitleBlock = document.querySelector(".hero-title-block");
+    const heroAmbient = document.querySelector(".hero-ambient");
+    const heroLockup = document.querySelector(".hero-lockup");
+    const revealTargets = Array.from(document.querySelectorAll(".reveal")).filter((item) => !item.closest(".hero"));
+
+    if (heroCopy) {
+      heroCopy.classList.add("is-visible");
+      gsapLib.set(heroCopy, { autoAlpha: 1, y: 0 });
+    }
+
+    const mm = gsapLib.matchMedia();
+    mm.add(
+      {
+        isDesktop: "(min-width: 821px)",
+        isMobile: "(max-width: 820px)",
+        reduceMotion: "(prefers-reduced-motion: reduce)"
+      },
+      (context) => {
+        const { isDesktop, reduceMotion } = context.conditions;
+        const cleanupFns = [];
+        const hasFinePointer = window.matchMedia("(pointer:fine)").matches;
+
+        if (reduceMotion) {
+          gsapLib.set(".reveal", { clearProps: "all", autoAlpha: 1, y: 0 });
+          document.querySelectorAll(".reveal").forEach((item) => item.classList.add("is-visible"));
+          const motionCleanup = initMotionCards(gsapLib, true);
+          if (motionCleanup) cleanupFns.push(motionCleanup);
+          return () => cleanupFns.forEach((cleanup) => cleanup());
+        }
+
+        gsapLib.defaults({ ease: "power2.out", duration: 0.7 });
+
+        if (ScrollTriggerLib && revealTargets.length) {
+          gsapLib.set(revealTargets, { autoAlpha: 0, y: 24 });
+          ScrollTriggerLib.batch(revealTargets, {
+            start: "top 86%",
+            once: true,
+            onEnter: (batch) => gsapLib.to(batch, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.9,
+              stagger: 0.1,
+              ease: "power3.out",
+              overwrite: true
+            })
+          });
+        } else {
+          initFallbackReveal();
+        }
+
+        const heroIntroTimeline = gsapLib.timeline({
+          defaults: { ease: "power3.out" }
+        });
+
+        heroIntroTimeline
+          .from(".hero-ambient-blob", {
+            autoAlpha: 0,
+            scale: 0.62,
+            duration: 1.2,
+            stagger: 0.12
+          }, 0)
+          .from(".hero .eyebrow", {
+            y: 18,
+            autoAlpha: 0,
+            duration: 0.72
+          }, 0.08)
+          .from(".headline-big", {
+            y: 30,
+            autoAlpha: 0,
+            scale: 0.95,
+            duration: 1.05
+          }, 0.14)
+          .from(".headline-name", {
+            y: 18,
+            x: -18,
+            autoAlpha: 0,
+            duration: 0.82
+          }, 0.3)
+          .from(".hero-quote", {
+            y: 14,
+            autoAlpha: 0,
+            scale: 0.96,
+            duration: 0.65
+          }, 0.56)
+          .from(".hero-intro", {
+            y: 20,
+            autoAlpha: 0,
+            duration: 0.7
+          }, 0.66)
+          .from(".hero-pills span", {
+            y: 16,
+            autoAlpha: 0,
+            duration: 0.55,
+            stagger: 0.06
+          }, 0.76)
+          .from(".hero-actions .button", {
+            y: 12,
+            autoAlpha: 0,
+            duration: 0.5,
+            stagger: 0.08
+          }, 0.86);
+
+        gsapLib.to(".hero-ambient-blob-a", {
+          x: 34,
+          y: -22,
+          scale: 1.08,
+          duration: 7.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+        gsapLib.to(".hero-ambient-blob-b", {
+          x: -26,
+          y: 26,
+          scale: 0.94,
+          duration: 6.6,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+        gsapLib.to(".hero-ambient-blob-c", {
+          y: -16,
+          scaleX: 1.06,
+          scaleY: 1.02,
+          duration: 8.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+
+        gsapLib.to(".headline-big", {
+          y: -7,
+          duration: 2.8,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+        gsapLib.to(".headline-name", {
+          x: 8,
+          y: 4,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+        gsapLib.to(".hero-quote", {
+          y: -4,
+          duration: 2.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+
+        if (isDesktop && hasFinePointer && heroTitleBlock && heroAmbient && heroLockup) {
+          const ambientXTo = gsapLib.quickTo(heroAmbient, "x", { duration: 0.7, ease: "power3.out" });
+          const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.7, ease: "power3.out" });
+          const lockupXTo = gsapLib.quickTo(heroLockup, "x", { duration: 0.8, ease: "power3.out" });
+          const lockupRotateTo = gsapLib.quickTo(heroLockup, "rotation", { duration: 0.8, ease: "power3.out" });
+
+          const onHeroMove = (event) => {
+            const rect = heroTitleBlock.getBoundingClientRect();
+            const relativeX = event.clientX - rect.left;
+            const relativeY = event.clientY - rect.top;
+            const moveX = gsapLib.utils.mapRange(0, rect.width, -18, 18, relativeX);
+            const moveY = gsapLib.utils.mapRange(0, rect.height, -12, 12, relativeY);
+            ambientXTo(moveX * 0.8);
+            ambientYTo(moveY * 0.8);
+            lockupXTo(moveX * 0.38);
+            lockupRotateTo(moveX * 0.03);
+          };
+
+          const onHeroLeave = () => {
+            ambientXTo(0);
+            ambientYTo(0);
+            lockupXTo(0);
+            lockupRotateTo(0);
+          };
+
+          heroTitleBlock.addEventListener("pointermove", onHeroMove);
+          heroTitleBlock.addEventListener("pointerleave", onHeroLeave);
+          cleanupFns.push(() => {
+            heroTitleBlock.removeEventListener("pointermove", onHeroMove);
+            heroTitleBlock.removeEventListener("pointerleave", onHeroLeave);
+          });
+        }
+
+        const motionCleanup = initMotionCards(gsapLib, false);
+        if (motionCleanup) cleanupFns.push(motionCleanup);
+
+        return () => cleanupFns.forEach((cleanup) => cleanup());
+      }
+    );
+  }
+
+  initGsapMotion();
+
   const viewer = document.getElementById("viewer");
   const viewerTitle = document.getElementById("viewer-title");
   const viewerSubtitle = document.getElementById("viewer-subtitle");
@@ -288,17 +599,4 @@
     }
   });
 
-  const revealItems = document.querySelectorAll(".reveal");
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
-    });
-  }, {
-    threshold: 0.14,
-    rootMargin: "0px 0px -40px 0px"
-  });
-
-  revealItems.forEach((item) => observer.observe(item));
 })();
