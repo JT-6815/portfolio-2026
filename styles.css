@@ -566,37 +566,24 @@ textarea {
   position: relative;
   display: grid;
   gap: 18px;
+  justify-items: center;
+  align-content: start;
 }
 
 .portrait-frame {
-  position: sticky;
-  top: 108px;
-  min-height: min(70vh, 640px);
+  position: relative;
+  top: 0;
+  width: min(100%, 500px);
+  min-height: auto;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   padding: 10px 0 0;
   isolation: isolate;
 }
 
 .portrait-frame::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  width: min(100%, 500px);
-  aspect-ratio: 0.92;
-  transform: translateX(-50%);
-  border-radius: 48% 48% 40% 40% / 40% 40% 34% 34%;
-  background:
-    linear-gradient(180deg, rgba(250, 244, 236, 0.98), rgba(236, 226, 210, 0.96)),
-    url("assets/paper-cover-2026.png");
-  background-position: center;
-  background-size: cover;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    0 24px 52px rgba(95, 64, 41, 0.12);
-  z-index: 0;
+  content: none;
 }
 
 .portrait-paper,
@@ -648,22 +635,22 @@ textarea {
 
 .portrait-photo {
   position: relative;
-  z-index: 3;
-  width: min(108%, 500px);
-  max-height: min(72vh, 640px);
-  margin-top: 18px;
+  z-index: 1;
+  width: min(100%, 460px);
+  max-height: none;
+  margin-top: 10px;
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-2px) scale(1);
   transform-origin: center bottom;
-  filter: drop-shadow(0 22px 30px rgba(82, 52, 33, 0.18));
+  filter: drop-shadow(0 14px 22px rgba(82, 52, 33, 0.14));
 }
 
 .about-profile-caption {
   width: min(100%, 480px);
   position: relative;
-  z-index: 5;
-  margin: -6px auto 0;
+  z-index: 1;
+  margin: 4px auto 0;
   padding: 0 12px;
   text-align: center;
 }
@@ -1697,17 +1684,17 @@ textarea {
   .portrait-frame {
     position: relative;
     top: 0;
-    min-height: min(72vh, 720px);
+    width: min(100%, 480px);
+    min-height: auto;
   }
 
   .portrait-frame::before {
-    width: min(100%, 470px);
-    bottom: 6px;
+    content: none;
   }
 
   .portrait-photo {
-    width: min(118%, 530px);
-    transform: translateX(-2px) scale(1.06);
+    width: min(100%, 450px);
+    transform: translateX(-2px) scale(1);
   }
 
   .section-index {
@@ -1796,15 +1783,14 @@ textarea {
   }
 
   .portrait-frame::before {
-    width: min(100%, 392px);
-    bottom: 4px;
+    content: none;
   }
 
   .portrait-photo {
-    width: min(122%, 470px);
+    width: min(100%, 390px);
     max-height: none;
-    margin-top: 18px;
-    transform: translateX(0) scale(1.08);
+    margin-top: 12px;
+    transform: translateX(0) scale(1);
   }
 
   .about-resume-grid,
