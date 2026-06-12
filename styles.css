@@ -607,6 +607,8 @@ textarea {
   top: 20px;
   width: 76%;
   height: clamp(72px, 10vw, 96px);
+  background-position: 0% 50%;
+  background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 213, 132, 0.62) 0%, rgba(255, 224, 168, 0.46) 30%, rgba(255, 241, 224, 0.14) 80%, rgba(255, 241, 224, 0) 100%);
 }
 
@@ -615,6 +617,8 @@ textarea {
   top: clamp(110px, 13vw, 136px);
   width: 44%;
   height: clamp(18px, 2vw, 24px);
+  background-position: 100% 50%;
+  background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 214, 150, 0.04) 0%, rgba(255, 201, 125, 0.24) 22%, rgba(243, 146, 86, 0.74) 100%);
 }
 
@@ -623,6 +627,8 @@ textarea {
   bottom: 36px;
   width: 58%;
   height: clamp(56px, 8vw, 78px);
+  background-position: 0% 50%;
+  background-size: 180% 100%;
   background: linear-gradient(90deg, rgba(255, 206, 126, 0.24) 0%, rgba(247, 157, 113, 0.46) 34%, rgba(255, 241, 224, 0.08) 94%, rgba(255, 241, 224, 0) 100%);
 }
 
@@ -686,10 +692,19 @@ textarea {
 }
 
 .about-page-submark {
-  color: var(--coral);
-  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
-  font-weight: 900;
-  letter-spacing: -0.12em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(1.9rem, 2.8vw, 2.5rem);
+  height: clamp(1.9rem, 2.8vw, 2.5rem);
+  flex: 0 0 auto;
+}
+
+.about-page-submark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: saturate(1.04);
 }
 
 .about-page-subtext {
@@ -731,6 +746,8 @@ textarea {
   flex: 0 0 auto;
   border-radius: 8px;
   background: #f6c464;
+  box-shadow: 0 10px 20px rgba(241, 93, 51, 0.14);
+  will-change: transform;
 }
 
 .about-page-arrow-line {
@@ -741,25 +758,25 @@ textarea {
 }
 
 .about-page-arrow-diagonal {
-  left: 26%;
-  top: 24%;
-  width: 12%;
-  height: 58%;
-  transform: rotate(-45deg);
+  left: 18%;
+  top: 48%;
+  width: 54%;
+  height: 8%;
+  transform: translateY(-50%) rotate(-45deg);
   transform-origin: center;
 }
 
 .about-page-arrow-base {
-  left: 26%;
-  right: 16%;
-  bottom: 16%;
+  left: 22%;
+  right: 14%;
+  bottom: 16.5%;
   height: 8%;
 }
 
 .about-page-arrow-side {
-  right: 16%;
+  right: 14%;
   top: 22%;
-  bottom: 16%;
+  bottom: 16.5%;
   width: 8%;
 }
 

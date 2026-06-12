@@ -303,21 +303,32 @@
       const scene = document.querySelector(".about-page-recreation");
       if (!scene) return null;
 
-      const ribbons = Array.from(scene.querySelectorAll(".about-page-ribbon"));
-      const drops = Array.from(scene.querySelectorAll(".about-page-drop"));
+      const topRibbon = scene.querySelector(".about-page-ribbon-top");
+      const middleRibbon = scene.querySelector(".about-page-ribbon-line");
+      const bottomRibbon = scene.querySelector(".about-page-ribbon-bottom");
+      const ribbons = [topRibbon, middleRibbon, bottomRibbon].filter(Boolean);
+      const headlineDrops = Array.from(scene.querySelectorAll(".about-page-headline .about-page-drop"));
+      const accentDrops = Array.from(scene.querySelectorAll(".about-page-quote, .about-page-subline, .about-page-hello, .about-page-arrow"));
       const cleanupFns = [];
 
       if (reduceMotion) {
         gsapLib.set(ribbons, { clearProps: "transform", autoAlpha: 1 });
-        gsapLib.set(drops, { clearProps: "transform", autoAlpha: 1 });
+        gsapLib.set([...headlineDrops, ...accentDrops], { clearProps: "transform", autoAlpha: 1 });
         return () => cleanupFns.forEach((cleanup) => cleanup());
       }
 
-      gsapLib.set(ribbons, { autoAlpha: 0, x: 0, y: 0 });
-      gsapLib.set(drops, {
+      gsapLib.set(ribbons, { autoAlpha: 0 });
+      gsapLib.set(headlineDrops, {
         autoAlpha: 0,
-        y: -18,
-        rotation: (index) => index % 2 === 0 ? -1.4 : 1.2
+        y: -72,
+        scaleX: 1.01,
+        scaleY: 1.08,
+        transformOrigin: "50% 100%"
+      });
+      gsapLib.set(accentDrops, {
+        autoAlpha: 0,
+        y: -34,
+        rotation: (index) => index % 2 === 0 ? -1.2 : 1.2
       });
 
       const introTimeline = gsapLib.timeline({
@@ -325,42 +336,98 @@
         defaults: { ease: "power3.out" }
       });
 
-      introTimeline
-        .fromTo(ribbons, {
-          scaleX: 0.9,
-          transformOrigin: "left center"
+      if (topRibbon) {
+        introTimeline.fromTo(topRibbon, {
+          clipPath: "inset(0 100% 0 0 round 999px)",
+          backgroundPosition: "0% 50%",
+          x: -18
         }, {
           autoAlpha: 1,
+          clipPath: "inset(0 0% 0 0 round 999px)",
+          backgroundPosition: "56% 50%",
+          x: 0,
+          duration: 0.96
+        }, 0);
+      }
+
+      if (middleRibbon) {
+        introTimeline.fromTo(middleRibbon, {
+          clipPath: "inset(0 0 0 100% round 999px)",
+          backgroundPosition: "100% 50%",
+          x: 14
+        }, {
+          autoAlpha: 1,
+          clipPath: "inset(0 0 0 0 round 999px)",
+          backgroundPosition: "44% 50%",
+          x: 0,
+          duration: 0.82
+        }, 0.12);
+      }
+
+      if (bottomRibbon) {
+        introTimeline.fromTo(bottomRibbon, {
+          clipPath: "inset(0 100% 0 0 round 999px)",
+          backgroundPosition: "0% 50%",
+          x: -22
+        }, {
+          autoAlpha: 1,
+          clipPath: "inset(0 0% 0 0 round 999px)",
+          backgroundPosition: "58% 50%",
+          x: 0,
+          duration: 1.08
+        }, 0.08);
+      }
+
+      introTimeline
+        .to(headlineDrops, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.68,
+          ease: "power2.in",
+          stagger: 0.06
+        }, 0.18)
+        .to(headlineDrops, {
+          y: 8,
+          scaleX: 1.02,
+          scaleY: 0.96,
+          duration: 0.14,
+          ease: "power1.out",
+          stagger: 0.04
+        }, 0.86)
+        .to(headlineDrops, {
+          y: 0,
           scaleX: 1,
-          duration: 0.92,
-          stagger: 0.08
-        }, 0)
-        .to(drops, {
+          scaleY: 1,
+          duration: 0.42,
+          ease: "back.out(0.72)",
+          stagger: 0.04
+        }, 1.02)
+        .to(accentDrops, {
           autoAlpha: 1,
           y: 0,
           rotation: 0,
-          duration: 0.82,
-          ease: "back.out(1.05)",
+          duration: 0.72,
+          ease: "power2.in",
           stagger: 0.05
-        }, 0.14);
+        }, 0.42);
 
       const loopTweens = [
         gsapLib.to(".about-page-ribbon-top", {
-          x: 16,
+          backgroundPosition: "100% 50%",
           duration: 7.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         }),
         gsapLib.to(".about-page-ribbon-line", {
-          x: -12,
+          backgroundPosition: "0% 50%",
           duration: 6.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         }),
         gsapLib.to(".about-page-ribbon-bottom", {
-          x: 18,
+          backgroundPosition: "100% 50%",
           duration: 8.2,
           repeat: -1,
           yoyo: true,
@@ -369,6 +436,17 @@
         gsapLib.to(".about-page-hello", {
           y: -3,
           duration: 3.6,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        }),
+        gsapLib.to(".about-page-arrow", {
+          y: -5,
+          x: 2,
+          rotation: 1.6,
+          scale: 1.02,
+          transformOrigin: "50% 50%",
+          duration: 4.6,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
