@@ -896,6 +896,8 @@ textarea {
   margin: 12px auto 4px;
   padding: 0 12px;
   color: var(--ink-deep);
+  font-size: 0.94rem;
+  line-height: 1.78;
 }
 
 .about-visual-contact {
