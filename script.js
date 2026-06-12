@@ -220,9 +220,9 @@
           .to(card, {
             "--motion-sheen-x": `${68 - (index % 4) * 7}%`,
             "--motion-sheen-y": `${34 + (index % 3) * 9}%`,
-            "--motion-aura-x": `${index % 2 === 0 ? 10 : -10}px`,
-            "--motion-aura-y": `${index % 3 === 0 ? -8 : 9}px`,
-            "--motion-aura-opacity": 0.18,
+            "--motion-aura-x": `${index % 2 === 0 ? 6 : -6}px`,
+            "--motion-aura-y": `${index % 3 === 0 ? -5 : 6}px`,
+            "--motion-aura-opacity": 0.2,
             duration: 2.6 + (index % 4) * 0.18
           }, 0)
           .to(liquid, {
@@ -254,7 +254,7 @@
           "--motion-sheen-opacity": 0.26,
           "--motion-liquid-opacity": 0.38,
           "--motion-caustic-opacity": 0.18,
-          "--motion-aura-opacity": 0.12,
+          "--motion-aura-opacity": 0.16,
           "--motion-aura-x": "0px",
           "--motion-aura-y": "0px"
         });
@@ -269,7 +269,7 @@
         "--motion-sheen-opacity": 0.3,
         "--motion-liquid-opacity": 0.42,
         "--motion-caustic-opacity": 0.24,
-        "--motion-aura-opacity": 0.14,
+        "--motion-aura-opacity": 0.18,
         "--motion-aura-x": "0px",
         "--motion-aura-y": "0px",
         transformPerspective: 1200,
@@ -300,14 +300,14 @@
           "--motion-sheen-opacity": 0.42,
           "--motion-liquid-opacity": 0.58,
           "--motion-caustic-opacity": 0.32,
-          "--motion-aura-opacity": 0.3,
+          "--motion-aura-opacity": 0.42,
           duration: 0.18,
           ease: "power2.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
-          autoAlpha: 0.32,
-          scale: 0.94,
+          autoAlpha: 0.54,
+          scale: 0.98,
           duration: 0.18,
           ease: "power2.out",
           overwrite: "auto"
@@ -332,8 +332,8 @@
         causticRotateTo(nx * -6.4);
         cardRotateXTo(ny * -4.6);
         cardRotateYTo(nx * 6.2);
-        auraXTo(`${nx * 18}px`);
-        auraYTo(`${ny * 16}px`);
+        auraXTo(`${nx * 10}px`);
+        auraYTo(`${ny * 9}px`);
       };
 
       const onLeave = () => {
@@ -343,14 +343,14 @@
           "--motion-sheen-opacity": 0.3,
           "--motion-liquid-opacity": 0.42,
           "--motion-caustic-opacity": 0.24,
-          "--motion-aura-opacity": 0.14,
+          "--motion-aura-opacity": 0.18,
           duration: 0.18,
           ease: "power3.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
-          autoAlpha: 0.12,
-          scale: 0.78,
+          autoAlpha: 0.18,
+          scale: 0.82,
           duration: 0.16,
           ease: "power2.out",
           overwrite: "auto"

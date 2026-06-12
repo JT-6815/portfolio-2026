@@ -1312,14 +1312,14 @@ textarea {
   --motion-sheen-opacity: 0.3;
   --motion-liquid-opacity: 0.42;
   --motion-caustic-opacity: 0.24;
-  --motion-aura-opacity: 0.14;
+  --motion-aura-opacity: 0.18;
   --motion-aura-x: 0px;
   --motion-aura-y: 0px;
   --motion-sheen-x: 50%;
   --motion-sheen-y: 50%;
   transform-style: preserve-3d;
   will-change: transform;
-  filter: drop-shadow(var(--motion-aura-x) var(--motion-aura-y) 42px rgba(255, 180, 96, var(--motion-aura-opacity)));
+  filter: drop-shadow(var(--motion-aura-x) var(--motion-aura-y) 24px rgba(255, 166, 70, var(--motion-aura-opacity)));
 }
 
 .brand.motion-card,
@@ -1328,7 +1328,7 @@ textarea {
   --motion-sheen-opacity: 0.34;
   --motion-liquid-opacity: 0.46;
   --motion-caustic-opacity: 0.28;
-  --motion-aura-opacity: 0.18;
+  --motion-aura-opacity: 0.22;
 }
 
 .motion-card::before {
@@ -1403,11 +1403,11 @@ textarea {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 340px;
-  height: 340px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 223, 188, 0.56) 0%, rgba(255, 176, 92, 0.22) 38%, rgba(255, 176, 92, 0) 76%);
-  filter: blur(20px);
+  background: radial-gradient(circle, rgba(255, 226, 194, 0.78) 0%, rgba(255, 168, 72, 0.34) 34%, rgba(255, 168, 72, 0) 72%);
+  filter: blur(14px);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.58);
