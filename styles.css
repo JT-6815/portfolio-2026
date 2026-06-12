@@ -758,21 +758,21 @@ textarea {
   position: relative;
   min-height: 154px;
   margin-top: auto;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
 }
 
 .about-practice-ornament::before {
   content: "";
   position: absolute;
-  right: -8px;
-  bottom: -6px;
-  width: 196px;
-  height: 144px;
+  right: 2px;
+  bottom: -8px;
+  width: 176px;
+  height: 176px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 210, 154, 0.44) 0%, rgba(255, 181, 106, 0.18) 42%, rgba(255, 181, 106, 0) 78%);
-  filter: blur(22px);
-  opacity: 0.92;
+  background: radial-gradient(circle, rgba(255, 210, 154, 0.5) 0%, rgba(255, 188, 117, 0.28) 26%, rgba(255, 188, 117, 0.12) 48%, rgba(255, 188, 117, 0) 78%);
+  filter: blur(40px);
+  opacity: 0.84;
   pointer-events: none;
   z-index: 0;
 }
@@ -786,27 +786,27 @@ textarea {
 
 .practice-ambient {
   border-radius: 999px;
-  filter: blur(26px);
-  opacity: 0.9;
+  filter: blur(36px);
+  opacity: 0.82;
   mix-blend-mode: screen;
 }
 
 .practice-ambient-one {
-  right: 4px;
-  bottom: 8px;
-  width: 176px;
-  height: 132px;
-  background: radial-gradient(circle, rgba(255, 183, 101, 0.62) 0%, rgba(255, 183, 101, 0.24) 44%, rgba(255, 183, 101, 0) 76%);
-  animation: practiceGlowPulse 6.8s ease-in-out infinite;
+  right: 24px;
+  bottom: 6px;
+  width: 148px;
+  height: 148px;
+  background: radial-gradient(circle, rgba(255, 184, 101, 0.54) 0%, rgba(255, 184, 101, 0.24) 34%, rgba(255, 184, 101, 0.1) 54%, rgba(255, 184, 101, 0) 76%);
+  animation: practiceGlowPulse 7.6s ease-in-out infinite;
 }
 
 .practice-ambient-two {
-  left: 34px;
-  bottom: 34px;
-  width: 138px;
-  height: 112px;
-  background: radial-gradient(circle, rgba(255, 234, 199, 0.58) 0%, rgba(255, 221, 170, 0.2) 50%, rgba(255, 221, 170, 0) 80%);
-  animation: practiceGlowPulse 8.4s ease-in-out infinite reverse;
+  left: 28px;
+  bottom: 22px;
+  width: 126px;
+  height: 126px;
+  background: radial-gradient(circle, rgba(255, 233, 198, 0.5) 0%, rgba(255, 221, 170, 0.2) 38%, rgba(255, 221, 170, 0.08) 56%, rgba(255, 221, 170, 0) 78%);
+  animation: practiceGlowPulse 8.8s ease-in-out infinite reverse;
 }
 
 .practice-path-illustration {
@@ -920,13 +920,13 @@ textarea {
 @keyframes practiceGlowPulse {
   0%,
   100% {
-    transform: scale(0.94) translate3d(0, 0, 0);
-    opacity: 0.46;
+    transform: scale(0.96) translate3d(0, 0, 0);
+    opacity: 0.52;
   }
 
   50% {
-    transform: scale(1.06) translate3d(0, -6px, 0);
-    opacity: 0.82;
+    transform: scale(1.05) translate3d(0, -4px, 0);
+    opacity: 0.88;
   }
 }
 
