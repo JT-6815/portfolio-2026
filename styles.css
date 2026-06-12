@@ -595,6 +595,10 @@ textarea {
 }
 
 .about-page-composition {
+  --about-quote-glyph: clamp(4rem, 7vw, 5.8rem);
+  --about-quote-left-inset: clamp(22px, 5vw, 44px);
+  --about-quote-right-inset: clamp(6px, 2vw, 18px);
+  --about-headline-span: calc(100% - var(--about-quote-left-inset) - var(--about-quote-right-inset) - var(--about-quote-glyph) - clamp(8px, 2vw, 18px));
   position: relative;
   width: min(100%, 980px);
   min-height: clamp(260px, 24vw, 340px);
@@ -630,17 +634,6 @@ textarea {
   animation: aboutRibbonFlowForward 8.4s linear infinite;
 }
 
-.about-page-ribbon-line {
-  right: 0;
-  top: clamp(110px, 13vw, 136px);
-  width: 44%;
-  height: clamp(18px, 2vw, 24px);
-  background-position: 100% 50%;
-  background-size: 180% 100%;
-  background: linear-gradient(90deg, rgba(255, 214, 150, 0.04) 0%, rgba(255, 201, 125, 0.24) 22%, rgba(243, 146, 86, 0.74) 100%);
-  animation: aboutRibbonFlowReverse 7.2s linear infinite;
-}
-
 .about-page-ribbon-bottom {
   left: 0;
   bottom: 36px;
@@ -658,31 +651,31 @@ textarea {
 
 .about-page-quote {
   position: absolute;
-  z-index: 3;
+  z-index: 2;
   color: #f6a100;
-  font-size: clamp(4rem, 7vw, 5.8rem);
+  font-size: var(--about-quote-glyph);
   font-weight: 800;
   line-height: 0.75;
 }
 
 .about-page-quote-left {
-  left: clamp(22px, 5vw, 44px);
+  left: var(--about-quote-left-inset);
   top: 24px;
 }
 
 .about-page-quote-right {
-  right: clamp(-2px, 1vw, 12px);
-  top: clamp(50px, 6.9vw, 82px);
+  right: var(--about-quote-right-inset);
+  top: clamp(52px, 7.2vw, 84px);
 }
 
 .about-page-headline {
   position: relative;
   z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 12px;
+  display: grid;
+  width: min(var(--about-headline-span), calc(100% - 16px));
+  margin: 0 auto;
+  justify-items: stretch;
+  row-gap: clamp(10px, 1vw, 16px);
   padding: 44px 8px 0;
   text-align: center;
 }
@@ -693,22 +686,56 @@ textarea {
   font-size: clamp(1.45rem, 2.4vw, 2.35rem);
   font-weight: 800;
   line-height: 1.1;
-  padding-bottom: clamp(0.26rem, 0.8vw, 0.58rem);
+  padding-bottom: 0;
+  white-space: nowrap;
+}
+
+.about-page-headline-start {
+  text-align: left;
 }
 
 .about-page-headline-main {
   color: var(--orange-deep);
-  font-size: clamp(5rem, 7.8vw, 8.6rem);
+  font-size: clamp(3.2rem, 5vw, 5.4rem);
   font-weight: 800;
   line-height: 0.88;
   display: inline-flex;
   align-items: flex-end;
-  gap: clamp(0.08em, 0.22vw, 0.14em);
+  justify-self: center;
+  justify-content: center;
+  gap: clamp(0.02em, 0.08vw, 0.05em);
   letter-spacing: 0;
 }
 
 .about-page-headline-main span {
   display: block;
+}
+
+.about-page-headline-end {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  justify-self: end;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  text-align: right;
+}
+
+.about-page-headline-end .about-page-ribbon-line {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-58%, -50%);
+  width: clamp(164px, 22vw, 236px);
+  height: clamp(18px, 2vw, 24px);
+  border-radius: 999px;
+  background-position: 100% 50%;
+  background-size: 180% 100%;
+  background: linear-gradient(90deg, rgba(255, 214, 150, 0.04) 0%, rgba(255, 201, 125, 0.24) 22%, rgba(243, 146, 86, 0.74) 100%);
+  animation: aboutRibbonFlowReverse 7.2s linear infinite;
 }
 
 .about-page-subline {
@@ -2685,21 +2712,8 @@ textarea {
   }
 
   .about-page-headline {
-    gap: 6px 10px;
+    row-gap: 8px;
     padding: 28px 4px 0;
-  }
-
-  .about-page-headline-main {
-    flex-basis: 100%;
-    order: 2;
-  }
-
-  .about-page-headline-start {
-    order: 1;
-  }
-
-  .about-page-headline-end {
-    order: 3;
   }
 
   .about-page-subline {
@@ -2774,16 +2788,24 @@ textarea {
   }
 
   .about-page-composition {
+    --about-quote-left-inset: 14px;
+    --about-quote-right-inset: 6px;
     min-height: 198px;
   }
 
   .about-page-quote-left {
-    left: 14px;
+    top: 24px;
   }
 
   .about-page-quote-right {
-    right: 0;
-    top: 56px;
+    top: 58px;
+  }
+
+  .about-page-headline-end .about-page-ribbon-line {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 146px;
   }
 
   .about-page-subtext {
