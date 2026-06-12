@@ -1595,11 +1595,23 @@ textarea {
   }
 
   .project-actions-with-external {
+    display: grid;
+    grid-template-columns: 1fr;
     align-items: stretch;
   }
 
-  .project-actions-with-external .project-contact-link {
-    display: none;
+  .project-actions-with-external .button,
+  .project-actions-with-external .project-link-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .project-link-card {
+    justify-content: flex-start;
+  }
+
+  .project-link-title {
+    white-space: normal;
   }
 
   .contact-panel.contact-panel-cover-title {
