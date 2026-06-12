@@ -765,14 +765,14 @@ textarea {
 .about-practice-ornament::before {
   content: "";
   position: absolute;
-  right: 2px;
-  bottom: -8px;
-  width: 176px;
-  height: 176px;
+  right: -10px;
+  bottom: -24px;
+  width: 224px;
+  height: 224px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 210, 154, 0.5) 0%, rgba(255, 188, 117, 0.28) 26%, rgba(255, 188, 117, 0.12) 48%, rgba(255, 188, 117, 0) 78%);
-  filter: blur(40px);
-  opacity: 0.84;
+  background: radial-gradient(circle, rgba(255, 243, 226, 0.78) 0%, rgba(255, 220, 182, 0.34) 24%, rgba(255, 198, 135, 0.16) 46%, rgba(255, 198, 135, 0) 76%);
+  filter: blur(56px);
+  opacity: 0.68;
   pointer-events: none;
   z-index: 0;
 }
@@ -786,27 +786,27 @@ textarea {
 
 .practice-ambient {
   border-radius: 999px;
-  filter: blur(36px);
-  opacity: 0.82;
+  filter: blur(52px);
+  opacity: 0.56;
   mix-blend-mode: screen;
 }
 
 .practice-ambient-one {
-  right: 24px;
-  bottom: 6px;
-  width: 148px;
-  height: 148px;
-  background: radial-gradient(circle, rgba(255, 184, 101, 0.54) 0%, rgba(255, 184, 101, 0.24) 34%, rgba(255, 184, 101, 0.1) 54%, rgba(255, 184, 101, 0) 76%);
-  animation: practiceGlowPulse 7.6s ease-in-out infinite;
+  right: 34px;
+  bottom: 10px;
+  width: 176px;
+  height: 176px;
+  background: radial-gradient(circle, rgba(255, 216, 172, 0.42) 0%, rgba(255, 196, 139, 0.18) 38%, rgba(255, 196, 139, 0.08) 56%, rgba(255, 196, 139, 0) 78%);
+  animation: practiceGlowPulse 9.2s ease-in-out infinite;
 }
 
 .practice-ambient-two {
-  left: 28px;
-  bottom: 22px;
-  width: 126px;
-  height: 126px;
-  background: radial-gradient(circle, rgba(255, 233, 198, 0.5) 0%, rgba(255, 221, 170, 0.2) 38%, rgba(255, 221, 170, 0.08) 56%, rgba(255, 221, 170, 0) 78%);
-  animation: practiceGlowPulse 8.8s ease-in-out infinite reverse;
+  left: 18px;
+  bottom: 18px;
+  width: 158px;
+  height: 158px;
+  background: radial-gradient(circle, rgba(255, 246, 232, 0.52) 0%, rgba(255, 227, 190, 0.18) 38%, rgba(255, 227, 190, 0.06) 58%, rgba(255, 227, 190, 0) 80%);
+  animation: practiceGlowPulse 10.4s ease-in-out infinite reverse;
 }
 
 .practice-path-illustration {
@@ -823,29 +823,29 @@ textarea {
 }
 
 .practice-path-base {
-  stroke: rgba(241, 93, 51, 0.16);
-  stroke-width: 2.2;
+  stroke: rgba(241, 93, 51, 0.14);
+  stroke-width: 2.1;
 }
 
 .practice-path-glow {
-  stroke: rgba(255, 154, 82, 0.78);
-  stroke-width: 2.8;
+  stroke: rgba(255, 162, 88, 0.7);
+  stroke-width: 2.5;
   stroke-dasharray: 10 18;
-  animation: practiceTrailDrift 10s linear infinite;
+  animation: practiceTrailDrift 12s linear infinite;
 }
 
 .practice-mini-card {
   width: 76px;
   height: 54px;
   border-radius: 20px;
-  border: 1.5px solid rgba(241, 93, 51, 0.26);
+  border: 1.4px solid rgba(241, 93, 51, 0.24);
   background:
-    linear-gradient(180deg, rgba(255, 252, 248, 0.82), rgba(255, 245, 232, 0.44)),
-    rgba(255, 255, 255, 0.28);
+    linear-gradient(180deg, rgba(255, 253, 250, 0.8), rgba(255, 247, 236, 0.34)),
+    rgba(255, 255, 255, 0.22);
   box-shadow:
-    0 16px 24px rgba(233, 148, 89, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(10px);
+    0 14px 28px rgba(233, 148, 89, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.54);
+  backdrop-filter: blur(8px);
 }
 
 .practice-mini-card::before,
@@ -855,7 +855,7 @@ textarea {
   left: 16px;
   height: 2px;
   border-radius: 999px;
-  background: rgba(241, 93, 51, 0.28);
+  background: rgba(241, 93, 51, 0.25);
 }
 
 .practice-mini-card::before {
@@ -872,7 +872,7 @@ textarea {
   left: 104px;
   bottom: 48px;
   transform: rotate(-8deg);
-  opacity: 0.9;
+  opacity: 0.84;
   animation: practiceCardFloatBack 7.6s ease-in-out infinite;
 }
 
@@ -882,17 +882,18 @@ textarea {
   width: 92px;
   height: 64px;
   transform: rotate(8deg);
+  opacity: 0.92;
   animation: practiceCardFloatFront 6.2s ease-in-out infinite;
 }
 
 .practice-node {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(255, 245, 232, 0.92), rgba(255, 169, 96, 0.9) 52%, rgba(241, 93, 51, 0.92) 100%);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 249, 240, 0.88), rgba(255, 199, 138, 0.64) 50%, rgba(241, 93, 51, 0.58) 100%);
   box-shadow:
-    0 0 0 6px rgba(255, 205, 152, 0.14),
-    0 8px 18px rgba(241, 93, 51, 0.16);
+    0 0 0 8px rgba(255, 228, 190, 0.08),
+    0 6px 14px rgba(241, 93, 51, 0.08);
 }
 
 .practice-node-one {
@@ -904,29 +905,29 @@ textarea {
 .practice-node-two {
   left: 138px;
   bottom: 74px;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   animation: practiceNodePulse 6.8s ease-in-out infinite 0.8s;
 }
 
 .practice-node-three {
   right: 56px;
   bottom: 112px;
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
   animation: practiceNodePulse 5.9s ease-in-out infinite 1.3s;
 }
 
 @keyframes practiceGlowPulse {
   0%,
   100% {
-    transform: scale(0.96) translate3d(0, 0, 0);
-    opacity: 0.52;
+    transform: scale(0.98) translate3d(0, 0, 0);
+    opacity: 0.34;
   }
 
   50% {
-    transform: scale(1.05) translate3d(0, -4px, 0);
-    opacity: 0.88;
+    transform: scale(1.03) translate3d(0, -2px, 0);
+    opacity: 0.58;
   }
 }
 
