@@ -194,12 +194,18 @@
       if (!glow) return;
 
       if (reduceMotion || !hasFinePointer) {
-        gsapLib.set(card, { "--motion-outline-opacity": 0.42 });
+        gsapLib.set(card, {
+          "--motion-outline-opacity": 0.56,
+          "--motion-sheen-opacity": 0.16
+        });
         return;
       }
 
       gsapLib.set(glow, { x: 0, y: 0, autoAlpha: 0, scale: 0.68 });
-      gsapLib.set(card, { "--motion-outline-opacity": 0.34 });
+      gsapLib.set(card, {
+        "--motion-outline-opacity": 0.48,
+        "--motion-sheen-opacity": 0.16
+      });
 
       const glowXTo = gsapLib.quickTo(glow, "x", { duration: 0.38, ease: "power3.out" });
       const glowYTo = gsapLib.quickTo(glow, "y", { duration: 0.38, ease: "power3.out" });
@@ -207,7 +213,8 @@
       const onEnter = () => {
         gsapLib.to(card, {
           y: -4,
-          "--motion-outline-opacity": 0.92,
+          "--motion-outline-opacity": 1.06,
+          "--motion-sheen-opacity": 0.34,
           duration: 0.35,
           ease: "power2.out",
           overwrite: "auto"
@@ -223,6 +230,10 @@
 
       const onMove = (event) => {
         const rect = card.getBoundingClientRect();
+        const px = `${((event.clientX - rect.left) / rect.width) * 100}%`;
+        const py = `${((event.clientY - rect.top) / rect.height) * 100}%`;
+        card.style.setProperty("--motion-sheen-x", px);
+        card.style.setProperty("--motion-sheen-y", py);
         glowXTo(event.clientX - rect.left - rect.width / 2);
         glowYTo(event.clientY - rect.top - rect.height / 2);
       };
@@ -230,7 +241,8 @@
       const onLeave = () => {
         gsapLib.to(card, {
           y: 0,
-          "--motion-outline-opacity": 0.34,
+          "--motion-outline-opacity": 0.48,
+          "--motion-sheen-opacity": 0.16,
           duration: 0.42,
           ease: "power3.out",
           overwrite: "auto"
@@ -244,6 +256,8 @@
         });
         glowXTo(0);
         glowYTo(0);
+        card.style.setProperty("--motion-sheen-x", "50%");
+        card.style.setProperty("--motion-sheen-y", "50%");
       };
 
       card.addEventListener("pointerenter", onEnter);
@@ -276,6 +290,8 @@
     const heroTitleBlock = document.querySelector(".hero-title-block");
     const heroAmbient = document.querySelector(".hero-ambient");
     const heroLockup = document.querySelector(".hero-lockup");
+    const heroTitleImage = document.querySelector(".headline-big img");
+    const heroNameImage = document.querySelector(".headline-name img");
     const revealTargets = Array.from(document.querySelectorAll(".reveal")).filter((item) => !item.closest(".hero"));
 
     if (heroCopy) {
@@ -342,8 +358,14 @@
           .from(".headline-big", {
             y: 30,
             autoAlpha: 0,
-            scale: 0.95,
             duration: 1.05
+          }, 0.14)
+          .from(".headline-big img", {
+            scaleX: 0.82,
+            scaleY: 1.18,
+            rotation: -1.4,
+            duration: 1.08,
+            ease: "expo.out"
           }, 0.14)
           .from(".headline-name", {
             y: 18,
@@ -351,6 +373,13 @@
             autoAlpha: 0,
             duration: 0.82
           }, 0.3)
+          .from(".headline-name img", {
+            scaleX: 1.14,
+            scaleY: 0.84,
+            rotation: -1.2,
+            duration: 0.86,
+            ease: "back.out(1.2)"
+          }, 0.32)
           .from(".hero-quote", {
             y: 14,
             autoAlpha: 0,
@@ -410,6 +439,16 @@
           yoyo: true,
           ease: "sine.inOut"
         });
+        if (heroTitleImage) {
+          gsapLib.to(heroTitleImage, {
+            scaleX: 1.032,
+            scaleY: 0.982,
+            duration: 3.4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
         gsapLib.to(".headline-name", {
           x: 8,
           y: 4,
@@ -418,6 +457,16 @@
           yoyo: true,
           ease: "sine.inOut"
         });
+        if (heroNameImage) {
+          gsapLib.to(heroNameImage, {
+            scaleX: 0.986,
+            scaleY: 1.038,
+            duration: 3.1,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
         gsapLib.to(".hero-quote", {
           y: -4,
           duration: 2.4,
@@ -431,6 +480,10 @@
           const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.7, ease: "power3.out" });
           const lockupXTo = gsapLib.quickTo(heroLockup, "x", { duration: 0.8, ease: "power3.out" });
           const lockupRotateTo = gsapLib.quickTo(heroLockup, "rotation", { duration: 0.8, ease: "power3.out" });
+          const titleScaleXTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "scaleX", { duration: 0.5, ease: "power3.out" }) : null;
+          const titleScaleYTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "scaleY", { duration: 0.5, ease: "power3.out" }) : null;
+          const nameScaleXTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "scaleX", { duration: 0.5, ease: "power3.out" }) : null;
+          const nameScaleYTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "scaleY", { duration: 0.5, ease: "power3.out" }) : null;
 
           const onHeroMove = (event) => {
             const rect = heroTitleBlock.getBoundingClientRect();
@@ -438,10 +491,16 @@
             const relativeY = event.clientY - rect.top;
             const moveX = gsapLib.utils.mapRange(0, rect.width, -18, 18, relativeX);
             const moveY = gsapLib.utils.mapRange(0, rect.height, -12, 12, relativeY);
+            const stretchX = gsapLib.utils.mapRange(0, rect.width, 0.968, 1.038, relativeX);
+            const stretchY = gsapLib.utils.mapRange(0, rect.height, 1.046, 0.97, relativeY);
             ambientXTo(moveX * 0.8);
             ambientYTo(moveY * 0.8);
             lockupXTo(moveX * 0.38);
             lockupRotateTo(moveX * 0.03);
+            titleScaleXTo?.(stretchX);
+            titleScaleYTo?.(stretchY);
+            nameScaleXTo?.(gsapLib.utils.mapRange(0, rect.width, 1.018, 0.982, relativeX));
+            nameScaleYTo?.(gsapLib.utils.mapRange(0, rect.height, 0.984, 1.03, relativeY));
           };
 
           const onHeroLeave = () => {
@@ -449,6 +508,10 @@
             ambientYTo(0);
             lockupXTo(0);
             lockupRotateTo(0);
+            titleScaleXTo?.(1.032);
+            titleScaleYTo?.(0.982);
+            nameScaleXTo?.(0.986);
+            nameScaleYTo?.(1.038);
           };
 
           heroTitleBlock.addEventListener("pointermove", onHeroMove);

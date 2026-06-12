@@ -222,6 +222,7 @@ textarea {
   justify-items: center;
   width: min(100%, 980px);
   text-align: center;
+  perspective: 1600px;
 }
 
 .eyebrow {
@@ -299,6 +300,7 @@ textarea {
   display: grid;
   justify-items: center;
   gap: 16px;
+  transform-style: preserve-3d;
 }
 
 .headline-big {
@@ -315,6 +317,8 @@ textarea {
   height: auto;
   opacity: 1;
   filter: none;
+  transform-origin: 50% 55%;
+  will-change: transform, opacity;
 }
 
 .headline-name {
@@ -333,6 +337,8 @@ textarea {
   height: auto;
   opacity: 1;
   filter: none;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
 }
 
 .hero-quote {
@@ -705,7 +711,10 @@ textarea {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  --motion-outline-opacity: 0.34;
+  --motion-outline-opacity: 0.48;
+  --motion-sheen-opacity: 0.2;
+  --motion-sheen-x: 50%;
+  --motion-sheen-y: 50%;
 }
 
 .motion-card::before {
@@ -713,13 +722,28 @@ textarea {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 208, 164, calc(var(--motion-outline-opacity) * 0.9)), rgba(241, 93, 51, var(--motion-outline-opacity)), rgba(255, 236, 214, calc(var(--motion-outline-opacity) * 0.78)));
+  padding: 1.2px;
+  background:
+    linear-gradient(135deg, rgba(255, 226, 190, calc(var(--motion-outline-opacity) * 0.95)), rgba(241, 93, 51, var(--motion-outline-opacity)), rgba(255, 242, 221, calc(var(--motion-outline-opacity) * 0.82)));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
   z-index: 2;
+}
+
+.motion-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at var(--motion-sheen-x) var(--motion-sheen-y), rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0) 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 24%);
+  opacity: var(--motion-sheen-opacity);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
 }
 
 .motion-card > * {
@@ -731,11 +755,11 @@ textarea {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 240px;
-  height: 240px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 201, 140, 0.52) 0%, rgba(255, 167, 82, 0.24) 34%, rgba(255, 167, 82, 0) 74%);
-  filter: blur(18px);
+  background: radial-gradient(circle, rgba(255, 214, 155, 0.62) 0%, rgba(255, 167, 82, 0.28) 34%, rgba(255, 167, 82, 0) 74%);
+  filter: blur(22px);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.68);
@@ -1719,7 +1743,7 @@ textarea {
   }
 
   .motion-card::before {
-    --motion-outline-opacity: 0.26;
+    --motion-outline-opacity: 0.34;
   }
 
   .contact-panel.contact-panel-cover-title {
