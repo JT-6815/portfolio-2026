@@ -770,9 +770,9 @@ textarea {
   width: 224px;
   height: 224px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 243, 226, 0.78) 0%, rgba(255, 220, 182, 0.34) 24%, rgba(255, 198, 135, 0.16) 46%, rgba(255, 198, 135, 0) 76%);
+  background: radial-gradient(circle, rgba(255, 236, 212, 0.82) 0%, rgba(255, 210, 154, 0.42) 22%, rgba(255, 181, 106, 0.24) 46%, rgba(255, 181, 106, 0) 76%);
   filter: blur(56px);
-  opacity: 0.68;
+  opacity: 0.78;
   pointer-events: none;
   z-index: 0;
 }
@@ -787,7 +787,7 @@ textarea {
 .practice-ambient {
   border-radius: 999px;
   filter: blur(52px);
-  opacity: 0.56;
+  opacity: 0.68;
   mix-blend-mode: screen;
 }
 
@@ -796,7 +796,7 @@ textarea {
   bottom: 10px;
   width: 176px;
   height: 176px;
-  background: radial-gradient(circle, rgba(255, 216, 172, 0.42) 0%, rgba(255, 196, 139, 0.18) 38%, rgba(255, 196, 139, 0.08) 56%, rgba(255, 196, 139, 0) 78%);
+  background: radial-gradient(circle, rgba(255, 214, 164, 0.54) 0%, rgba(255, 190, 122, 0.28) 36%, rgba(255, 190, 122, 0.12) 56%, rgba(255, 190, 122, 0) 78%);
   animation: practiceGlowPulse 9.2s ease-in-out infinite;
 }
 
@@ -805,7 +805,7 @@ textarea {
   bottom: 18px;
   width: 158px;
   height: 158px;
-  background: radial-gradient(circle, rgba(255, 246, 232, 0.52) 0%, rgba(255, 227, 190, 0.18) 38%, rgba(255, 227, 190, 0.06) 58%, rgba(255, 227, 190, 0) 80%);
+  background: radial-gradient(circle, rgba(255, 244, 226, 0.6) 0%, rgba(255, 220, 176, 0.24) 38%, rgba(255, 208, 156, 0.1) 58%, rgba(255, 208, 156, 0) 80%);
   animation: practiceGlowPulse 10.4s ease-in-out infinite reverse;
 }
 
