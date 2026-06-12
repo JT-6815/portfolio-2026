@@ -175,14 +175,24 @@
   }
 
   function initMotionCards(gsapLib, reduceMotion) {
-    const cards = Array.from(document.querySelectorAll(".info-card, .project-copy, .project-visual, .visual-card, .contact-meta div, .brand, .nav"));
+    const cards = Array.from(document.querySelectorAll(".info-card, .project-copy, .project-visual, .visual-card, .project-link-card, .contact-meta div, .brand, .nav"));
     const cleanups = [];
     const hasFinePointer = window.matchMedia("(pointer:fine)").matches;
 
-    cards.forEach((card) => {
+    cards.forEach((card, index) => {
       if (card.dataset.motionCardReady !== "true") {
         card.dataset.motionCardReady = "true";
         card.classList.add("motion-card");
+
+        const causticNode = document.createElement("span");
+        causticNode.className = "motion-card-caustic";
+        causticNode.setAttribute("aria-hidden", "true");
+        card.prepend(causticNode);
+
+        const liquidNode = document.createElement("span");
+        liquidNode.className = "motion-card-liquid";
+        liquidNode.setAttribute("aria-hidden", "true");
+        card.prepend(liquidNode);
 
         const glowNode = document.createElement("span");
         glowNode.className = "motion-card-glow";
@@ -191,38 +201,114 @@
       }
 
       const glow = card.querySelector(".motion-card-glow");
-      if (!glow) return;
+      const liquid = card.querySelector(".motion-card-liquid");
+      const caustic = card.querySelector(".motion-card-caustic");
+      if (!glow || !liquid || !caustic) return;
+
+      let idleTimeline = null;
+
+      const startIdleMotion = () => {
+        idleTimeline?.kill();
+
+        idleTimeline = gsapLib.timeline({
+          repeat: -1,
+          yoyo: true,
+          defaults: { ease: "sine.inOut" }
+        });
+
+        idleTimeline
+          .to(card, {
+            "--motion-sheen-x": `${68 - (index % 4) * 7}%`,
+            "--motion-sheen-y": `${34 + (index % 3) * 9}%`,
+            "--motion-aura-x": `${index % 2 === 0 ? 10 : -10}px`,
+            "--motion-aura-y": `${index % 3 === 0 ? -8 : 9}px`,
+            "--motion-aura-opacity": 0.18,
+            duration: 2.6 + (index % 4) * 0.18
+          }, 0)
+          .to(liquid, {
+            xPercent: index % 2 === 0 ? 8 : -8,
+            yPercent: index % 3 === 0 ? -6 : 7,
+            rotation: index % 2 === 0 ? 4 : -4,
+            scale: 1.05,
+            duration: 2.9 + (index % 3) * 0.14
+          }, 0)
+          .to(caustic, {
+            xPercent: index % 2 === 0 ? -10 : 10,
+            yPercent: index % 3 === 0 ? 8 : -8,
+            rotation: index % 2 === 0 ? -6 : 6,
+            scale: 1.08,
+            duration: 3.1 + (index % 4) * 0.12
+          }, 0.08)
+          .to(glow, {
+            xPercent: index % 2 === 0 ? 10 : -10,
+            yPercent: index % 3 === 0 ? -7 : 9,
+            autoAlpha: 0.18,
+            scale: 0.86,
+            duration: 2.8 + (index % 5) * 0.12
+          }, 0);
+      };
 
       if (reduceMotion || !hasFinePointer) {
         gsapLib.set(card, {
-          "--motion-outline-opacity": 0.72,
-          "--motion-sheen-opacity": 0.22
+          "--motion-outline-opacity": 1,
+          "--motion-sheen-opacity": 0.26,
+          "--motion-liquid-opacity": 0.38,
+          "--motion-caustic-opacity": 0.18,
+          "--motion-aura-opacity": 0.12,
+          "--motion-aura-x": "0px",
+          "--motion-aura-y": "0px"
         });
         return;
       }
 
-      gsapLib.set(glow, { x: 0, y: 0, autoAlpha: 0, scale: 0.62 });
+      gsapLib.set(glow, { xPercent: 0, yPercent: 0, autoAlpha: 0.1, scale: 0.76 });
+      gsapLib.set(liquid, { xPercent: 0, yPercent: 0, rotation: 0, scale: 0.96 });
+      gsapLib.set(caustic, { xPercent: 0, yPercent: 0, rotation: 0, scale: 1 });
       gsapLib.set(card, {
-        "--motion-outline-opacity": 0.62,
-        "--motion-sheen-opacity": 0.26
+        "--motion-outline-opacity": 1,
+        "--motion-sheen-opacity": 0.3,
+        "--motion-liquid-opacity": 0.42,
+        "--motion-caustic-opacity": 0.24,
+        "--motion-aura-opacity": 0.14,
+        "--motion-aura-x": "0px",
+        "--motion-aura-y": "0px",
+        transformPerspective: 1200,
+        transformOrigin: "50% 50%",
+        rotationX: 0,
+        rotationY: 0
       });
 
-      const glowXTo = gsapLib.quickTo(glow, "x", { duration: 0.22, ease: "power3.out" });
-      const glowYTo = gsapLib.quickTo(glow, "y", { duration: 0.22, ease: "power3.out" });
+      const glowXTo = gsapLib.quickTo(glow, "xPercent", { duration: 0.18, ease: "power3.out" });
+      const glowYTo = gsapLib.quickTo(glow, "yPercent", { duration: 0.18, ease: "power3.out" });
+      const liquidXTo = gsapLib.quickTo(liquid, "xPercent", { duration: 0.24, ease: "power3.out" });
+      const liquidYTo = gsapLib.quickTo(liquid, "yPercent", { duration: 0.24, ease: "power3.out" });
+      const liquidRotateTo = gsapLib.quickTo(liquid, "rotation", { duration: 0.28, ease: "power2.out" });
+      const causticXTo = gsapLib.quickTo(caustic, "xPercent", { duration: 0.22, ease: "power3.out" });
+      const causticYTo = gsapLib.quickTo(caustic, "yPercent", { duration: 0.22, ease: "power3.out" });
+      const causticRotateTo = gsapLib.quickTo(caustic, "rotation", { duration: 0.26, ease: "power2.out" });
+      const cardRotateXTo = gsapLib.quickTo(card, "rotationX", { duration: 0.2, ease: "power3.out" });
+      const cardRotateYTo = gsapLib.quickTo(card, "rotationY", { duration: 0.2, ease: "power3.out" });
+      const auraXTo = gsapLib.quickTo(card, "--motion-aura-x", { duration: 0.24, ease: "power3.out" });
+      const auraYTo = gsapLib.quickTo(card, "--motion-aura-y", { duration: 0.24, ease: "power3.out" });
 
       const onEnter = () => {
+        idleTimeline?.pause();
+
         gsapLib.to(card, {
-          y: -5,
-          "--motion-outline-opacity": 1.18,
-          "--motion-sheen-opacity": 0.44,
-          duration: 0.22,
+          y: -4,
+          "--motion-outline-opacity": 1,
+          "--motion-sheen-opacity": 0.42,
+          "--motion-liquid-opacity": 0.58,
+          "--motion-caustic-opacity": 0.32,
+          "--motion-aura-opacity": 0.3,
+          duration: 0.18,
           ease: "power2.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
-          autoAlpha: 1,
-          scale: 1.04,
-          duration: 0.24,
+          autoAlpha: 0.32,
+          scale: 0.94,
+          duration: 0.18,
           ease: "power2.out",
           overwrite: "auto"
         });
@@ -230,41 +316,68 @@
 
       const onMove = (event) => {
         const rect = card.getBoundingClientRect();
-        const px = `${((event.clientX - rect.left) / rect.width) * 100}%`;
-        const py = `${((event.clientY - rect.top) / rect.height) * 100}%`;
+        const nx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const ny = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+        const px = `${((nx + 1) / 2) * 100}%`;
+        const py = `${((ny + 1) / 2) * 100}%`;
         card.style.setProperty("--motion-sheen-x", px);
         card.style.setProperty("--motion-sheen-y", py);
-        glowXTo(event.clientX - rect.left - rect.width / 2);
-        glowYTo(event.clientY - rect.top - rect.height / 2);
+        glowXTo(nx * 18);
+        glowYTo(ny * 18);
+        liquidXTo(nx * 16);
+        liquidYTo(ny * 12);
+        liquidRotateTo(nx * 5.4);
+        causticXTo(nx * -18);
+        causticYTo(ny * 14);
+        causticRotateTo(nx * -6.4);
+        cardRotateXTo(ny * -4.6);
+        cardRotateYTo(nx * 6.2);
+        auraXTo(`${nx * 18}px`);
+        auraYTo(`${ny * 16}px`);
       };
 
       const onLeave = () => {
         gsapLib.to(card, {
           y: 0,
-          "--motion-outline-opacity": 0.62,
-          "--motion-sheen-opacity": 0.26,
-          duration: 0.28,
+          "--motion-outline-opacity": 1,
+          "--motion-sheen-opacity": 0.3,
+          "--motion-liquid-opacity": 0.42,
+          "--motion-caustic-opacity": 0.24,
+          "--motion-aura-opacity": 0.14,
+          duration: 0.18,
           ease: "power3.out",
           overwrite: "auto"
         });
         gsapLib.to(glow, {
-          autoAlpha: 0,
-          scale: 0.66,
-          duration: 0.24,
+          autoAlpha: 0.12,
+          scale: 0.78,
+          duration: 0.16,
           ease: "power2.out",
           overwrite: "auto"
         });
         glowXTo(0);
         glowYTo(0);
-        card.style.setProperty("--motion-sheen-x", "50%");
-        card.style.setProperty("--motion-sheen-y", "50%");
+        liquidXTo(0);
+        liquidYTo(0);
+        liquidRotateTo(0);
+        causticXTo(0);
+        causticYTo(0);
+        causticRotateTo(0);
+        cardRotateXTo(0);
+        cardRotateYTo(0);
+        auraXTo("0px");
+        auraYTo("0px");
+        startIdleMotion();
       };
+
+      startIdleMotion();
 
       card.addEventListener("pointerenter", onEnter);
       card.addEventListener("pointermove", onMove);
       card.addEventListener("pointerleave", onLeave);
 
       cleanups.push(() => {
+        idleTimeline?.kill();
         card.removeEventListener("pointerenter", onEnter);
         card.removeEventListener("pointermove", onMove);
         card.removeEventListener("pointerleave", onLeave);
