@@ -714,13 +714,265 @@ textarea {
 .about-resume-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
-  gap: 26px;
+  grid-template-areas:
+    "identity awards"
+    "ability practice"
+    "software software";
+  gap: 22px 26px;
+  align-items: stretch;
 }
 
 .about-resume-column {
+  display: contents;
+}
+
+.about-identity-card {
+  grid-area: identity;
+}
+
+.about-awards-card {
+  grid-area: awards;
+}
+
+.about-capability-card {
+  grid-area: ability;
+}
+
+.about-practice-card {
+  grid-area: practice;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  overflow: hidden;
+}
+
+.about-software-card {
+  grid-area: software;
+}
+
+.about-practice-card ul {
+  margin-bottom: 0;
+}
+
+.about-practice-ornament {
+  position: relative;
+  min-height: 154px;
+  margin-top: auto;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.about-practice-ornament::before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  bottom: -6px;
+  width: 196px;
+  height: 144px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 154, 0.44) 0%, rgba(255, 181, 106, 0.18) 42%, rgba(255, 181, 106, 0) 78%);
+  filter: blur(22px);
+  opacity: 0.92;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.practice-ambient,
+.practice-mini-card,
+.practice-node,
+.practice-path-illustration {
+  position: absolute;
+}
+
+.practice-ambient {
+  border-radius: 999px;
+  filter: blur(26px);
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+.practice-ambient-one {
+  right: 4px;
+  bottom: 8px;
+  width: 176px;
+  height: 132px;
+  background: radial-gradient(circle, rgba(255, 183, 101, 0.62) 0%, rgba(255, 183, 101, 0.24) 44%, rgba(255, 183, 101, 0) 76%);
+  animation: practiceGlowPulse 6.8s ease-in-out infinite;
+}
+
+.practice-ambient-two {
+  left: 34px;
+  bottom: 34px;
+  width: 138px;
+  height: 112px;
+  background: radial-gradient(circle, rgba(255, 234, 199, 0.58) 0%, rgba(255, 221, 170, 0.2) 50%, rgba(255, 221, 170, 0) 80%);
+  animation: practiceGlowPulse 8.4s ease-in-out infinite reverse;
+}
+
+.practice-path-illustration {
+  inset: auto 10px 8px 8px;
+  width: calc(100% - 18px);
+  height: 138px;
+  overflow: visible;
+}
+
+.practice-path-base,
+.practice-path-glow {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.practice-path-base {
+  stroke: rgba(241, 93, 51, 0.16);
+  stroke-width: 2.2;
+}
+
+.practice-path-glow {
+  stroke: rgba(255, 154, 82, 0.78);
+  stroke-width: 2.8;
+  stroke-dasharray: 10 18;
+  animation: practiceTrailDrift 10s linear infinite;
+}
+
+.practice-mini-card {
+  width: 76px;
+  height: 54px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(241, 93, 51, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 248, 0.82), rgba(255, 245, 232, 0.44)),
+    rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 16px 24px rgba(233, 148, 89, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(10px);
+}
+
+.practice-mini-card::before,
+.practice-mini-card::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(241, 93, 51, 0.28);
+}
+
+.practice-mini-card::before {
+  top: 18px;
+  width: 30px;
+}
+
+.practice-mini-card::after {
+  top: 28px;
+  width: 22px;
+}
+
+.practice-mini-card-back {
+  left: 104px;
+  bottom: 48px;
+  transform: rotate(-8deg);
+  opacity: 0.9;
+  animation: practiceCardFloatBack 7.6s ease-in-out infinite;
+}
+
+.practice-mini-card-front {
+  right: 34px;
+  bottom: 26px;
+  width: 92px;
+  height: 64px;
+  transform: rotate(8deg);
+  animation: practiceCardFloatFront 6.2s ease-in-out infinite;
+}
+
+.practice-node {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 245, 232, 0.92), rgba(255, 169, 96, 0.9) 52%, rgba(241, 93, 51, 0.92) 100%);
+  box-shadow:
+    0 0 0 6px rgba(255, 205, 152, 0.14),
+    0 8px 18px rgba(241, 93, 51, 0.16);
+}
+
+.practice-node-one {
+  left: 22px;
+  bottom: 56px;
+  animation: practiceNodePulse 5.6s ease-in-out infinite;
+}
+
+.practice-node-two {
+  left: 138px;
+  bottom: 74px;
+  width: 10px;
+  height: 10px;
+  animation: practiceNodePulse 6.8s ease-in-out infinite 0.8s;
+}
+
+.practice-node-three {
+  right: 56px;
+  bottom: 112px;
+  width: 13px;
+  height: 13px;
+  animation: practiceNodePulse 5.9s ease-in-out infinite 1.3s;
+}
+
+@keyframes practiceGlowPulse {
+  0%,
+  100% {
+    transform: scale(0.94) translate3d(0, 0, 0);
+    opacity: 0.46;
+  }
+
+  50% {
+    transform: scale(1.06) translate3d(0, -6px, 0);
+    opacity: 0.82;
+  }
+}
+
+@keyframes practiceTrailDrift {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -112;
+  }
+}
+
+@keyframes practiceCardFloatBack {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-8deg);
+  }
+
+  50% {
+    transform: translate3d(-4px, -10px, 0) rotate(-4deg);
+  }
+}
+
+@keyframes practiceCardFloatFront {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(8deg);
+  }
+
+  50% {
+    transform: translate3d(4px, -12px, 0) rotate(11deg);
+  }
+}
+
+@keyframes practiceNodePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
 }
 
 .about .info-card h3 {
@@ -890,12 +1142,16 @@ textarea {
 .software-chip-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px 14px;
+  gap: 14px 10px;
 }
 
 .about-capability-card,
 .about-software-card {
   padding-inline: 28px;
+}
+
+.about-software-card {
+  padding-inline: 18px;
 }
 
 .ability-icon-image {
@@ -922,12 +1178,27 @@ textarea {
   font-size: 0.9rem;
   line-height: 1.28;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .software-chip {
-  min-height: 108px;
-  padding-top: 2px;
+  min-height: 114px;
+  padding: 2px 0 6px;
+}
+
+.software-chip-label {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+.software-chip-label-tight {
+  font-size: 0.78rem;
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .about-contact-list a {
@@ -1839,6 +2110,20 @@ textarea {
   .contact-meta,
   .visual-grid {
     grid-template-columns: 1fr;
+  }
+
+  .about-resume-grid {
+    grid-template-areas:
+      "identity"
+      "awards"
+      "ability"
+      "practice"
+      "software";
+    align-items: start;
+  }
+
+  .about-resume-grid .info-card {
+    height: auto;
   }
 
   .software-chip-grid {
