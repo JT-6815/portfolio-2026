@@ -405,113 +405,75 @@
           }, 0.86);
 
         gsapLib.to(".hero-ambient-blob-a", {
-          x: 34,
-          y: -22,
-          scale: 1.08,
-          duration: 7.4,
+          x: 22,
+          y: -14,
+          scale: 1.04,
+          duration: 10.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
         gsapLib.to(".hero-ambient-blob-b", {
-          x: -26,
-          y: 26,
-          scale: 0.94,
-          duration: 6.6,
+          x: -18,
+          y: 18,
+          scale: 0.98,
+          duration: 9.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
         gsapLib.to(".hero-ambient-blob-c", {
-          y: -16,
-          scaleX: 1.06,
-          scaleY: 1.02,
-          duration: 8.2,
+          y: -10,
+          scale: 1.03,
+          duration: 11.2,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
 
-        gsapLib.to(".headline-big", {
-          y: -7,
-          duration: 2.8,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-        if (heroTitleImage) {
-          gsapLib.to(heroTitleImage, {
-            scaleX: 1.032,
-            scaleY: 0.982,
-            duration: 3.4,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-          });
-        }
-        gsapLib.to(".headline-name", {
-          x: 8,
-          y: 4,
-          duration: 3.2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-        if (heroNameImage) {
-          gsapLib.to(heroNameImage, {
-            scaleX: 0.986,
-            scaleY: 1.038,
-            duration: 3.1,
+        if (heroLockup) {
+          gsapLib.to(heroLockup, {
+            y: -4,
+            duration: 4.2,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut"
           });
         }
         gsapLib.to(".hero-quote", {
-          y: -4,
-          duration: 2.4,
+          y: -3,
+          duration: 3.2,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
 
         if (isDesktop && hasFinePointer && heroTitleBlock && heroAmbient && heroLockup) {
-          const ambientXTo = gsapLib.quickTo(heroAmbient, "x", { duration: 0.7, ease: "power3.out" });
-          const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.7, ease: "power3.out" });
-          const lockupXTo = gsapLib.quickTo(heroLockup, "x", { duration: 0.8, ease: "power3.out" });
-          const lockupRotateTo = gsapLib.quickTo(heroLockup, "rotation", { duration: 0.8, ease: "power3.out" });
-          const titleScaleXTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "scaleX", { duration: 0.5, ease: "power3.out" }) : null;
-          const titleScaleYTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "scaleY", { duration: 0.5, ease: "power3.out" }) : null;
-          const nameScaleXTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "scaleX", { duration: 0.5, ease: "power3.out" }) : null;
-          const nameScaleYTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "scaleY", { duration: 0.5, ease: "power3.out" }) : null;
+          const ambientXTo = gsapLib.quickTo(heroAmbient, "x", { duration: 0.9, ease: "power3.out" });
+          const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.9, ease: "power3.out" });
+          const lockupXTo = gsapLib.quickTo(heroLockup, "x", { duration: 0.9, ease: "power3.out" });
+          const lockupYTo = gsapLib.quickTo(heroLockup, "y", { duration: 0.9, ease: "power3.out" });
+          const lockupRotateTo = gsapLib.quickTo(heroLockup, "rotation", { duration: 0.9, ease: "power3.out" });
 
           const onHeroMove = (event) => {
             const rect = heroTitleBlock.getBoundingClientRect();
             const relativeX = event.clientX - rect.left;
             const relativeY = event.clientY - rect.top;
-            const moveX = gsapLib.utils.mapRange(0, rect.width, -18, 18, relativeX);
-            const moveY = gsapLib.utils.mapRange(0, rect.height, -12, 12, relativeY);
-            const stretchX = gsapLib.utils.mapRange(0, rect.width, 0.968, 1.038, relativeX);
-            const stretchY = gsapLib.utils.mapRange(0, rect.height, 1.046, 0.97, relativeY);
-            ambientXTo(moveX * 0.8);
-            ambientYTo(moveY * 0.8);
-            lockupXTo(moveX * 0.38);
-            lockupRotateTo(moveX * 0.03);
-            titleScaleXTo?.(stretchX);
-            titleScaleYTo?.(stretchY);
-            nameScaleXTo?.(gsapLib.utils.mapRange(0, rect.width, 1.018, 0.982, relativeX));
-            nameScaleYTo?.(gsapLib.utils.mapRange(0, rect.height, 0.984, 1.03, relativeY));
+            const moveX = gsapLib.utils.mapRange(0, rect.width, -12, 12, relativeX);
+            const moveY = gsapLib.utils.mapRange(0, rect.height, -8, 8, relativeY);
+            ambientXTo(moveX * 0.72);
+            ambientYTo(moveY * 0.72);
+            lockupXTo(moveX * 0.18);
+            lockupYTo(moveY * 0.12 - 4);
+            lockupRotateTo(moveX * 0.016);
           };
 
           const onHeroLeave = () => {
             ambientXTo(0);
             ambientYTo(0);
             lockupXTo(0);
+            lockupYTo(-4);
             lockupRotateTo(0);
-            titleScaleXTo?.(1.032);
-            titleScaleYTo?.(0.982);
-            nameScaleXTo?.(0.986);
-            nameScaleYTo?.(1.038);
           };
 
           heroTitleBlock.addEventListener("pointermove", onHeroMove);
@@ -532,6 +494,9 @@
 
   initGsapMotion();
 
+  const overlayGsap = window.gsap || null;
+  const aboutSheetOverlay = document.getElementById("about-sheet-overlay");
+  const projectSpotlightOverlay = document.getElementById("project-spotlight-overlay");
   const viewer = document.getElementById("viewer");
   const viewerTitle = document.getElementById("viewer-title");
   const viewerSubtitle = document.getElementById("viewer-subtitle");
@@ -540,9 +505,62 @@
   const viewerThumbs = document.getElementById("viewer-thumbs");
   const prevButton = document.getElementById("viewer-prev");
   const nextButton = document.getElementById("viewer-next");
+  const managedOverlays = [aboutSheetOverlay, projectSpotlightOverlay, viewer].filter(Boolean);
 
   let activeProject = null;
   let activeIndex = 0;
+
+  function syncBodyScrollLock() {
+    const hasOpenOverlay = managedOverlays.some((overlay) => !overlay.classList.contains("is-hidden"));
+    document.body.style.overflow = hasOpenOverlay ? "hidden" : "";
+  }
+
+  function getOverlayParts(overlay) {
+    if (!overlay) return { panel: null, backdrop: null };
+    return {
+      panel: overlay.querySelector(".story-overlay-panel, .viewer-panel"),
+      backdrop: overlay.querySelector(".story-overlay-backdrop, .viewer-backdrop")
+    };
+  }
+
+  function openOverlay(overlay) {
+    if (!overlay || !overlay.classList.contains("is-hidden")) return;
+    const { panel, backdrop } = getOverlayParts(overlay);
+    overlay.classList.remove("is-hidden");
+    syncBodyScrollLock();
+
+    if (!overlayGsap || !panel || !backdrop) return;
+
+    overlayGsap.killTweensOf([panel, backdrop]);
+    overlayGsap.set(backdrop, { autoAlpha: 0 });
+    overlayGsap.set(panel, { autoAlpha: 0, y: 26, scale: 0.985 });
+    overlayGsap.timeline({ defaults: { ease: "power3.out" } })
+      .to(backdrop, { autoAlpha: 1, duration: 0.22 }, 0)
+      .to(panel, { autoAlpha: 1, y: 0, scale: 1, duration: 0.42 }, 0.04);
+  }
+
+  function closeOverlay(overlay) {
+    if (!overlay || overlay.classList.contains("is-hidden")) return;
+    const { panel, backdrop } = getOverlayParts(overlay);
+
+    if (!overlayGsap || !panel || !backdrop) {
+      overlay.classList.add("is-hidden");
+      syncBodyScrollLock();
+      return;
+    }
+
+    overlayGsap.killTweensOf([panel, backdrop]);
+    overlayGsap.timeline({
+      defaults: { ease: "power2.inOut" },
+      onComplete: () => {
+        overlay.classList.add("is-hidden");
+        overlayGsap.set([panel, backdrop], { clearProps: "all" });
+        syncBodyScrollLock();
+      }
+    })
+      .to(panel, { autoAlpha: 0, y: 18, scale: 0.988, duration: 0.22 }, 0)
+      .to(backdrop, { autoAlpha: 0, duration: 0.18 }, 0.02);
+  }
 
   function getProjectById(projectId) {
     return projects.find((project) => project.id === projectId) || null;
@@ -595,8 +613,7 @@
 
     renderThumbs();
     updateViewer();
-    viewer.classList.remove("is-hidden");
-    document.body.style.overflow = "hidden";
+    openOverlay(viewer);
   }
 
   function openViewer(projectId, page) {
@@ -608,8 +625,7 @@
   }
 
   function closeViewer() {
-    viewer.classList.add("is-hidden");
-    document.body.style.overflow = "";
+    closeOverlay(viewer);
   }
 
   function moveViewer(step) {
@@ -621,6 +637,12 @@
   }
 
   document.addEventListener("click", (event) => {
+    const aboutButton = event.target.closest("[data-open-about-sheet]");
+    if (aboutButton) {
+      openOverlay(aboutSheetOverlay);
+      return;
+    }
+
     const cardButton = event.target.closest("[data-open-card]");
     if (cardButton) {
       openViewerForCard(cardButton.getAttribute("data-open-card"));
@@ -640,6 +662,17 @@
       return;
     }
 
+    const storyClose = event.target.closest("[data-story-close]");
+    if (storyClose) {
+      const target = storyClose.getAttribute("data-story-close");
+      if (target === "about") {
+        closeOverlay(aboutSheetOverlay);
+      } else if (target === "spotlight") {
+        closeOverlay(projectSpotlightOverlay);
+      }
+      return;
+    }
+
     const thumbButton = event.target.closest("[data-thumb-index]");
     if (thumbButton) {
       activeIndex = Number(thumbButton.getAttribute("data-thumb-index"));
@@ -651,13 +684,17 @@
   nextButton.addEventListener("click", () => moveViewer(1));
 
   document.addEventListener("keydown", (event) => {
-    if (viewer.classList.contains("is-hidden")) return;
-
     if (event.key === "Escape") {
-      closeViewer();
-    } else if (event.key === "ArrowLeft") {
+      if (viewer && !viewer.classList.contains("is-hidden")) {
+        closeViewer();
+      } else if (projectSpotlightOverlay && !projectSpotlightOverlay.classList.contains("is-hidden")) {
+        closeOverlay(projectSpotlightOverlay);
+      } else if (aboutSheetOverlay && !aboutSheetOverlay.classList.contains("is-hidden")) {
+        closeOverlay(aboutSheetOverlay);
+      }
+    } else if (event.key === "ArrowLeft" && viewer && !viewer.classList.contains("is-hidden")) {
       moveViewer(-1);
-    } else if (event.key === "ArrowRight") {
+    } else if (event.key === "ArrowRight" && viewer && !viewer.classList.contains("is-hidden")) {
       moveViewer(1);
     }
   });

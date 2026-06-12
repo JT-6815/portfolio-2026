@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>田婧 | 2026 Industrial Design Portfolio</title>
   <meta name="description" content="田婧 2026 工业设计作品集网站，包含 CAMPGO 箱旅随行、声迹模块化音乐控制器、竹间 HiFi 音响系统、视障人群专用集成灶、Manta Matrix 智能救援浮岛系统与模块化太空垃圾清洁机器人。">
-  <link rel="stylesheet" href="styles.css?v=20260612-about20">
+  <link rel="stylesheet" href="styles.css?v=20260612-story3">
 </head>
 <body>
   <div class="site-grain" aria-hidden="true"></div>
@@ -39,6 +39,9 @@
             <span class="hero-ambient-blob hero-ambient-blob-a"></span>
             <span class="hero-ambient-blob hero-ambient-blob-b"></span>
             <span class="hero-ambient-blob hero-ambient-blob-c"></span>
+            <span class="hero-ambient-line hero-ambient-line-a"></span>
+            <span class="hero-ambient-line hero-ambient-line-b"></span>
+            <span class="hero-ambient-line hero-ambient-line-c"></span>
           </div>
           <h1 class="hero-lockup">
             <span class="headline-big">
@@ -105,6 +108,9 @@
         <p class="about-lead">
           按作品集简历页的结构整理，集中展示我的能力方向、获奖经历、实践经验与基本信息。
         </p>
+        <div class="about-actions">
+          <button class="button button-secondary about-sheet-button" type="button" data-open-about-sheet>展开简历页</button>
+        </div>
         <div class="about-resume-grid">
           <div class="about-resume-column">
             <article class="info-card about-identity-card">
@@ -310,12 +316,105 @@
     </section>
   </main>
 
-  <div class="viewer is-hidden" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title">
-    <div class="viewer-backdrop" data-viewer-close></div>
-    <div class="viewer-panel">
-      <button class="viewer-close" type="button" aria-label="关闭作品页预览" data-viewer-close>&times;</button>
+  <div class="story-overlay is-hidden" id="about-sheet-overlay" role="dialog" aria-modal="true" aria-labelledby="about-sheet-title">
+    <div class="story-overlay-backdrop" data-story-close="about"></div>
+    <div class="story-overlay-panel story-overlay-panel-about">
+      <button class="story-overlay-close" type="button" aria-label="关闭关于我浮层" data-story-close="about">&times;</button>
 
-      <div class="viewer-head">
+      <div class="story-overlay-head">
+        <div>
+          <p class="eyebrow">About Sheet</p>
+          <h3 id="about-sheet-title">关于我</h3>
+          <p class="story-overlay-intro">把简历页内容整理成一张更完整的浮层页面，用更聚焦的方式展示我是谁、做过什么，以及我擅长怎样的设计表达。</p>
+        </div>
+        <div class="story-chip-group" aria-label="关于我标签">
+          <span>产品设计</span>
+          <span>智能制造</span>
+          <span>工业设计 × 视觉表达</span>
+        </div>
+      </div>
+
+      <div class="about-sheet-layout">
+        <aside class="about-sheet-aside">
+          <div class="about-sheet-portrait">
+            <img src="assets/portrait-portfolio-2026.png?v=20260611-static1" alt="田婧形象照">
+          </div>
+          <div class="about-sheet-profile">
+            <p class="eyebrow">Profile</p>
+            <h4>田婧</h4>
+            <p>浙江科技大学设计学本科在读，产品设计专业智能制造方向，持续关注情绪体验、智能产品与跨媒介视觉表达。</p>
+          </div>
+          <dl class="about-sheet-contact">
+            <div><dt>城市</dt><dd>浙江杭州</dd></div>
+            <div><dt>电话</dt><dd><a href="tel:18368158826">18368158826</a></dd></div>
+            <div><dt>邮箱</dt><dd><a href="mailto:429403281@qq.com">429403281@qq.com</a></dd></div>
+          </dl>
+        </aside>
+
+        <div class="about-sheet-main">
+          <article class="sheet-card">
+            <h4>个人概况</h4>
+            <dl class="sheet-facts">
+              <div><dt>学历阶段</dt><dd>2023 - 2027 本科在读</dd></div>
+              <div><dt>平均绩点</dt><dd>3.84 / 5.0（1 / 33）</dd></div>
+              <div><dt>主修方向</dt><dd>产品设计 · 智能制造</dd></div>
+              <div><dt>课程重点</dt><dd>智能家具、智能产品开发、目标导向设计、产品形态设计</dd></div>
+            </dl>
+          </article>
+
+          <article class="sheet-card">
+            <h4>获奖经历</h4>
+            <ul class="sheet-list">
+              <li>学业优秀一等奖学金、校一等奖学金、三好学生</li>
+              <li>浙江省工业设计竞赛“云和木玩”产业赛道三等奖</li>
+              <li>第十届米兰设计周浙江省三等奖、省政府奖学金</li>
+              <li>浙江省景宁畲族自治县苔藓文创大赛二等奖</li>
+              <li>第七届全国大学生普译写作大赛三等奖、浙江省浙里禁毒π比赛三等奖</li>
+            </ul>
+          </article>
+
+          <article class="sheet-card">
+            <h4>工作与实践</h4>
+            <ul class="sheet-list">
+              <li>参与春萌计划与文创茶具研究，负责用户调研、分析整理与论文撰写。</li>
+              <li>在杭州乙个文化传媒参与围挡设计与公众号排版，处理真实传播场景中的视觉表达。</li>
+              <li>在杭州海派东方科技参与机箱、CPU 风扇与显卡水冷头外观开发。</li>
+              <li>可独立完成建模、渲染、图档输出，并配合线下汇报与需求沟通。</li>
+            </ul>
+          </article>
+
+          <article class="sheet-card">
+            <h4>能力与软件</h4>
+            <div class="sheet-pill-grid">
+              <span>手绘 &amp; 板绘</span>
+              <span>建模渲染</span>
+              <span>AIGC 应用</span>
+              <span>沟通与协作</span>
+              <span>Photoshop</span>
+              <span>Illustrator</span>
+              <span>Figma</span>
+              <span>Rhino / KeyShot / Blender</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="story-overlay is-hidden" id="project-spotlight-overlay" role="dialog" aria-modal="true" aria-labelledby="project-spotlight-title">
+    <div class="story-overlay-backdrop" data-story-close="spotlight"></div>
+    <div class="story-overlay-panel story-overlay-panel-spotlight">
+      <button class="story-overlay-close" type="button" aria-label="关闭项目浮层" data-story-close="spotlight">&times;</button>
+      <div id="project-spotlight-content"></div>
+    </div>
+  </div>
+
+  <div class="viewer story-overlay is-hidden" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title">
+    <div class="viewer-backdrop story-overlay-backdrop" data-viewer-close></div>
+    <div class="viewer-panel story-overlay-panel story-overlay-panel-viewer">
+      <button class="viewer-close story-overlay-close" type="button" aria-label="关闭作品页预览" data-viewer-close>&times;</button>
+
+      <div class="viewer-head story-overlay-head">
         <div>
           <p class="eyebrow" id="viewer-subtitle">Original Pages</p>
           <h3 id="viewer-title">作品页预览</h3>
@@ -338,7 +437,7 @@
   <script src="content/site-data.js?v=20260612-odd3"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=20260612-motion2" defer></script>
+  <script src="script.js?v=20260612-story2" defer></script>
 </body>
 </html>
 
