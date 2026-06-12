@@ -896,8 +896,8 @@ textarea {
 
 .software-chip-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px 12px;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 16px 14px;
 }
 
 .ability-icon-image {
@@ -909,8 +909,8 @@ textarea {
 }
 
 .software-icon-image {
-  width: auto;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   margin-bottom: 8px;
   object-fit: contain;
   filter: drop-shadow(0 7px 10px rgba(79, 55, 44, 0.08));
@@ -918,11 +918,17 @@ textarea {
 
 .ability-item span:last-child,
 .software-chip span:last-child {
-  max-width: 15ch;
+  max-width: none;
+  width: 100%;
+  min-width: 0;
+  font-size: 0.9rem;
+  line-height: 1.28;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .software-chip {
-  min-height: 98px;
+  min-height: 108px;
   padding-top: 2px;
 }
 
@@ -1810,7 +1816,7 @@ textarea {
   }
 
   .software-chip-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
   }
 
   .viewer-panel {
@@ -1845,7 +1851,7 @@ textarea {
   }
 
   .software-chip-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
   }
 
   .ability-icon-image {
@@ -1853,7 +1859,8 @@ textarea {
   }
 
   .software-icon-image {
-    height: 48px;
+    width: 46px;
+    height: 46px;
   }
 
   .number-badge {
