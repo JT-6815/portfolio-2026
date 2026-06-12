@@ -664,8 +664,8 @@ textarea {
 }
 
 .about-page-quote-right {
-  right: clamp(22px, 4vw, 34px);
-  top: clamp(58px, 8vw, 88px);
+  right: clamp(6px, 2vw, 18px);
+  top: clamp(52px, 7.2vw, 84px);
 }
 
 .about-page-headline {
@@ -2711,8 +2711,8 @@ textarea {
   }
 
   .about-page-quote-right {
-    right: 16px;
-    top: 64px;
+    right: 6px;
+    top: 58px;
   }
 
   .about-page-subtext {
