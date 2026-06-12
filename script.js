@@ -58,14 +58,13 @@
             ${project.highlights.map((item) => `<li>${item}</li>`).join("")}
           </ul>
 
-          <div class="project-actions">
+          <div class="project-actions ${project.externalUrl ? "project-actions-with-external" : ""}">
             <button class="button button-primary" type="button" data-open-project="${project.id}">查看原作品页</button>
-            <a class="button button-secondary" href="#contact">联系我</a>
+            ${!project.externalUrl ? `<a class="button button-secondary project-contact-link" href="#contact">联系我</a>` : ""}
             ${project.externalUrl ? `
               <a class="project-link-card" href="${project.externalUrl}" target="_blank" rel="noreferrer">
                 <span class="project-link-kicker">独立链接</span>
-                <strong>${project.externalLabel || "延伸项目页"}</strong>
-                ${project.externalDescription ? `<span>${project.externalDescription}</span>` : ""}
+                <span class="project-link-title">${project.externalLabel || "延伸项目页"}</span>
               </a>
             ` : ""}
           </div>

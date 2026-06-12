@@ -862,52 +862,72 @@ textarea {
   z-index: 1;
 }
 
+.project-actions-with-external {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.project-actions-with-external > * {
+  min-width: 0;
+}
+
+.project-actions-with-external .button {
+  flex: 0 0 auto;
+  min-width: 8.9rem;
+  min-height: 56px;
+  padding-inline: 14px;
+}
+
 .project-link-card {
-  flex: 1 1 100%;
-  display: grid;
-  gap: 8px;
-  padding: 16px 18px;
-  border: 1px solid rgba(241, 93, 51, 0.14);
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(255, 247, 238, 0.94), rgba(255, 241, 226, 0.88));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  color: var(--ink-deep);
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 1px solid rgba(241, 93, 51, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 244, 232, 0.9);
+  box-shadow: 0 12px 24px rgba(241, 93, 51, 0.08);
+  color: var(--coral-deep);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  text-align: left;
 }
 
 .project-link-card:hover,
 .project-link-card:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(241, 93, 51, 0.26);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 12px 26px rgba(204, 120, 79, 0.12);
+  border-color: rgba(241, 93, 51, 0.34);
+  background: rgba(255, 238, 222, 0.98);
+  box-shadow: 0 14px 28px rgba(241, 93, 51, 0.12);
   outline: none;
 }
 
 .project-link-kicker {
   display: inline-flex;
-  width: fit-content;
+  flex: 0 0 auto;
   align-items: center;
-  min-height: 24px;
-  padding: 0 10px;
+  min-height: 28px;
+  padding: 0 12px;
   border-radius: 999px;
   background: rgba(241, 93, 51, 0.12);
-  color: var(--coral);
+  color: var(--coral-deep);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.project-link-card strong {
+.project-link-title {
+  flex: 1 1 auto;
+  min-width: 0;
   color: var(--ink-deep);
-  font-size: 1rem;
-  line-height: 1.45;
-}
-
-.project-link-card span:last-child {
-  color: var(--muted);
-  line-height: 1.65;
+  font-size: 0.83rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .project-visual {
@@ -1572,6 +1592,14 @@ textarea {
   .project-visual,
   .contact-panel {
     padding: 20px;
+  }
+
+  .project-actions-with-external {
+    align-items: stretch;
+  }
+
+  .project-actions-with-external .project-contact-link {
+    display: none;
   }
 
   .contact-panel.contact-panel-cover-title {
