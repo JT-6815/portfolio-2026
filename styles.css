@@ -294,54 +294,6 @@ textarea {
   transform: translateX(-50%);
 }
 
-.hero-ambient-line {
-  position: absolute;
-  display: block;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 248, 236, 0.98) 16%, rgba(255, 216, 156, 0.86) 46%, rgba(255, 244, 228, 0.92) 72%, rgba(255, 255, 255, 0));
-  box-shadow:
-    0 0 18px rgba(255, 227, 190, 0.46),
-    0 0 34px rgba(255, 185, 120, 0.26);
-  opacity: 0.86;
-  transform-origin: center;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-}
-
-.hero-ambient-line::after {
-  content: "";
-  position: absolute;
-  inset: -9px 10%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 228, 196, 0.34) 50%, rgba(255, 255, 255, 0));
-  filter: blur(12px);
-}
-
-.hero-ambient-line-a {
-  top: 18%;
-  left: 8%;
-  width: min(28rem, 38vw);
-  transform: rotate(-11deg);
-  animation: heroLineSweepA 9.8s ease-in-out infinite;
-}
-
-.hero-ambient-line-b {
-  top: 47%;
-  right: 4%;
-  width: min(24rem, 32vw);
-  transform: rotate(7deg);
-  animation: heroLineSweepB 11.4s ease-in-out infinite;
-}
-
-.hero-ambient-line-c {
-  left: 22%;
-  bottom: 11%;
-  width: min(22rem, 30vw);
-  transform: rotate(-4deg);
-  animation: heroLineSweepC 10.6s ease-in-out infinite;
-}
-
 .hero-lockup {
   position: relative;
   z-index: 3;
@@ -2083,45 +2035,6 @@ textarea {
   }
 }
 
-@keyframes heroLineSweepA {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(-11deg) scaleX(0.96);
-    opacity: 0.46;
-  }
-
-  50% {
-    transform: translate3d(18px, -8px, 0) rotate(-9deg) scaleX(1.04);
-    opacity: 0.86;
-  }
-}
-
-@keyframes heroLineSweepB {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(7deg) scaleX(0.94);
-    opacity: 0.34;
-  }
-
-  50% {
-    transform: translate3d(-16px, 10px, 0) rotate(9deg) scaleX(1.08);
-    opacity: 0.78;
-  }
-}
-
-@keyframes heroLineSweepC {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(-4deg) scaleX(0.98);
-    opacity: 0.4;
-  }
-
-  50% {
-    transform: translate3d(12px, -6px, 0) rotate(-2deg) scaleX(1.05);
-    opacity: 0.8;
-  }
-}
-
 @keyframes heroHaloLeft {
   0%,
   100% {
@@ -2275,18 +2188,6 @@ textarea {
     inset: -6% -4%;
   }
 
-  .hero-ambient-line-a {
-    width: min(22rem, 44vw);
-  }
-
-  .hero-ambient-line-b {
-    width: min(18rem, 36vw);
-  }
-
-  .hero-ambient-line-c {
-    width: min(17rem, 34vw);
-  }
-
   .portrait-frame {
     position: relative;
     top: 0;
@@ -2368,10 +2269,6 @@ textarea {
   .hero-ambient-blob-c {
     width: min(18rem, 54vw);
     height: min(12rem, 30vw);
-  }
-
-  .hero-ambient-line {
-    opacity: 0.54;
   }
 
   .headline-big {
