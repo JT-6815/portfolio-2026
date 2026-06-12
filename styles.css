@@ -726,9 +726,9 @@ textarea {
 .about-page-headline-end .about-page-ribbon-line {
   position: absolute;
   z-index: -1;
-  left: 50%;
+  right: 0;
   top: 50%;
-  transform: translate(-58%, -50%);
+  transform: translateY(-50%);
   width: clamp(164px, 22vw, 236px);
   height: clamp(18px, 2vw, 24px);
   border-radius: 999px;
@@ -2802,9 +2802,9 @@ textarea {
   }
 
   .about-page-headline-end .about-page-ribbon-line {
-    left: 50%;
+    right: 0;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
     width: 146px;
   }
 
