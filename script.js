@@ -413,25 +413,22 @@
 
       const loopTweens = [
         gsapLib.to(".about-page-ribbon-top", {
-          backgroundPosition: "100% 50%",
-          duration: 7.4,
+          backgroundPosition: "156% 50%",
+          duration: 8.4,
           repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
+          ease: "none"
         }),
         gsapLib.to(".about-page-ribbon-line", {
-          backgroundPosition: "0% 50%",
-          duration: 6.4,
+          backgroundPosition: "-56% 50%",
+          duration: 7.2,
           repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
+          ease: "none"
         }),
         gsapLib.to(".about-page-ribbon-bottom", {
-          backgroundPosition: "100% 50%",
-          duration: 8.2,
+          backgroundPosition: "158% 50%",
+          duration: 9.2,
           repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
+          ease: "none"
         }),
         gsapLib.to(".about-page-hello", {
           y: -3,
