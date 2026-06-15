@@ -419,6 +419,7 @@
       const topRibbon = scene.querySelector(".about-page-ribbon-top");
       const middleRibbon = scene.querySelector(".about-page-ribbon-line");
       const bottomRibbon = scene.querySelector(".about-page-ribbon-bottom");
+      const arrowEl = scene.querySelector(".about-page-arrow");
       const ribbons = [topRibbon, middleRibbon, bottomRibbon].filter(Boolean);
       const headlineDrops = Array.from(scene.querySelectorAll(".about-page-headline .about-page-drop"));
       const accentDrops = Array.from(scene.querySelectorAll(".about-page-quote, .about-page-subline, .about-page-hello, .about-page-arrow"));
@@ -526,31 +527,76 @@
           stagger: 0.05
         }, 0.42);
 
+      const helloLoopTween = gsapLib.to(".about-page-hello", {
+        y: -3,
+        duration: 3.6,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      const arrowLoopTween = arrowEl ? gsapLib.to(arrowEl, {
+        y: -5,
+        x: 2,
+        rotation: 1.6,
+        scale: 1.02,
+        transformOrigin: "50% 50%",
+        duration: 4.6,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      }) : null;
       const loopTweens = [
-        gsapLib.to(".about-page-hello", {
-          y: -3,
-          duration: 3.6,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        }),
-        gsapLib.to(".about-page-arrow", {
-          y: -5,
-          x: 2,
-          rotation: 1.6,
-          scale: 1.02,
-          transformOrigin: "50% 50%",
-          duration: 4.6,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        })
-      ];
+        helloLoopTween,
+        arrowLoopTween
+      ].filter(Boolean);
+
+      let arrowHoverTween = null;
+      if (arrowEl && window.matchMedia("(pointer:fine)").matches) {
+        const onArrowEnter = () => {
+          arrowLoopTween?.pause();
+          arrowHoverTween?.kill();
+          arrowHoverTween = gsapLib.to(arrowEl, {
+            x: 6,
+            y: -12,
+            rotation: 0.8,
+            scale: 1.16,
+            duration: 0.28,
+            ease: "power3.out",
+            overwrite: "auto"
+          });
+        };
+
+        const onArrowLeave = () => {
+          arrowHoverTween?.kill();
+          arrowHoverTween = gsapLib.to(arrowEl, {
+            x: 2,
+            y: -5,
+            rotation: 1.6,
+            scale: 1.02,
+            duration: 0.34,
+            ease: "power3.out",
+            overwrite: "auto",
+            onComplete: () => arrowLoopTween?.resume()
+          });
+        };
+
+        arrowEl.addEventListener("pointerenter", onArrowEnter);
+        arrowEl.addEventListener("pointerleave", onArrowLeave);
+        cleanupFns.push(() => {
+          arrowEl.removeEventListener("pointerenter", onArrowEnter);
+          arrowEl.removeEventListener("pointerleave", onArrowLeave);
+          arrowHoverTween?.kill();
+        });
+      }
 
       loopTweens.forEach((tween) => tween.pause(0));
 
       const playLoops = () => {
         scene.classList.add("is-flowing");
+        if (arrowEl?.matches(":hover")) {
+          helloLoopTween.play();
+          return;
+        }
         loopTweens.forEach((tween) => tween.play());
       };
       const pauseLoops = () => {
@@ -725,32 +771,102 @@
             ease: "sine.inOut"
           });
         }
+        if (heroTitleImage) {
+          gsapLib.to(".headline-big", {
+            y: -4.4,
+            duration: 5.2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
+        if (heroNameImage) {
+          gsapLib.to(".headline-name", {
+            y: -2.2,
+            duration: 6,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
+        if (heroTitleBlock) {
+          gsapLib.to(heroTitleBlock, {
+            "--hero-sun-drift": "42px",
+            duration: 7.2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
         if (isDesktop && hasFinePointer && heroTitleBlock && heroAmbient && heroLockup) {
           const ambientXTo = gsapLib.quickTo(heroAmbient, "x", { duration: 0.9, ease: "power3.out" });
           const ambientYTo = gsapLib.quickTo(heroAmbient, "y", { duration: 0.9, ease: "power3.out" });
           const lockupXTo = gsapLib.quickTo(heroLockup, "x", { duration: 0.9, ease: "power3.out" });
           const lockupYTo = gsapLib.quickTo(heroLockup, "y", { duration: 0.9, ease: "power3.out" });
           const lockupRotateTo = gsapLib.quickTo(heroLockup, "rotation", { duration: 0.9, ease: "power3.out" });
+          const lockupRotateXTo = gsapLib.quickTo(heroLockup, "rotationX", { duration: 0.8, ease: "power3.out" });
+          const lockupRotateYTo = gsapLib.quickTo(heroLockup, "rotationY", { duration: 0.8, ease: "power3.out" });
+          const titleXTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "x", { duration: 0.72, ease: "power3.out" }) : null;
+          const titleYTo = heroTitleImage ? gsapLib.quickTo(heroTitleImage, "y", { duration: 0.72, ease: "power3.out" }) : null;
+          const nameXTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "x", { duration: 0.78, ease: "power3.out" }) : null;
+          const nameYTo = heroNameImage ? gsapLib.quickTo(heroNameImage, "y", { duration: 0.78, ease: "power3.out" }) : null;
+          const glowOpacityTo = gsapLib.quickTo(heroTitleBlock, "--hero-spot-opacity", { duration: 0.2, ease: "power2.out" });
+          const glowScaleTo = gsapLib.quickTo(heroTitleBlock, "--hero-spot-scale", { duration: 0.34, ease: "power3.out" });
+          const sheenShiftTo = gsapLib.quickTo(heroTitleBlock, "--hero-sheen-shift", { duration: 0.28, ease: "power3.out" });
+          const sunPointerTo = gsapLib.quickTo(heroTitleBlock, "--hero-sun-pointer", { duration: 0.42, ease: "power3.out" });
+
+          gsapLib.set(heroLockup, {
+            transformPerspective: 1600,
+            transformOrigin: "50% 50%",
+            rotationX: 0,
+            rotationY: 0
+          });
 
           const onHeroMove = (event) => {
             const rect = heroTitleBlock.getBoundingClientRect();
             const relativeX = event.clientX - rect.left;
             const relativeY = event.clientY - rect.top;
-            const moveX = gsapLib.utils.mapRange(0, rect.width, -12, 12, relativeX);
-            const moveY = gsapLib.utils.mapRange(0, rect.height, -8, 8, relativeY);
-            ambientXTo(moveX * 0.72);
-            ambientYTo(moveY * 0.72);
-            lockupXTo(moveX * 0.18);
-            lockupYTo(moveY * 0.12 - 4);
-            lockupRotateTo(moveX * 0.016);
+            const nx = gsapLib.utils.clamp(-1, 1, gsapLib.utils.mapRange(0, rect.width, -1, 1, relativeX));
+            const ny = gsapLib.utils.clamp(-1, 1, gsapLib.utils.mapRange(0, rect.height, -1, 1, relativeY));
+            const moveX = nx * 16;
+            const moveY = ny * 10;
+            heroTitleBlock.style.setProperty("--hero-spot-x", `${((nx + 1) / 2) * 100}%`);
+            heroTitleBlock.style.setProperty("--hero-spot-y", `${((ny + 1) / 2) * 100}%`);
+            glowOpacityTo(0.78);
+            glowScaleTo(1.08);
+            sheenShiftTo(`${nx * 24}px`);
+            sunPointerTo(`${nx * 16}px`);
+            ambientXTo(moveX * 0.78);
+            ambientYTo(moveY * 0.74);
+            lockupXTo(moveX * 0.22);
+            lockupYTo(moveY * 0.14 - 4);
+            lockupRotateTo(nx * 0.22);
+            lockupRotateXTo(ny * -4.8);
+            lockupRotateYTo(nx * 6.4);
+            titleXTo?.(moveX * 0.24);
+            titleYTo?.(moveY * 0.16);
+            nameXTo?.(moveX * 0.34);
+            nameYTo?.(moveY * 0.22);
           };
 
           const onHeroLeave = () => {
+            glowOpacityTo(0);
+            glowScaleTo(0.82);
+            sheenShiftTo("0px");
+            sunPointerTo("0px");
+            heroTitleBlock.style.setProperty("--hero-spot-x", "50%");
+            heroTitleBlock.style.setProperty("--hero-spot-y", "46%");
             ambientXTo(0);
             ambientYTo(0);
             lockupXTo(0);
             lockupYTo(-4);
             lockupRotateTo(0);
+            lockupRotateXTo(0);
+            lockupRotateYTo(0);
+            titleXTo?.(0);
+            titleYTo?.(0);
+            nameXTo?.(0);
+            nameYTo?.(0);
           };
 
           heroTitleBlock.addEventListener("pointermove", onHeroMove);
@@ -1027,3 +1143,9 @@
   });
 
 })();
+
+
+
+
+
+
