@@ -387,16 +387,273 @@
     return () => cleanups.forEach((cleanup) => cleanup());
   }
 
+  function initSectionGate(gsapLib, ScrollTriggerLib) {
+    const arrowTrigger = document.querySelector("[data-section-gate-trigger]");
+    const gateTargets = Array.from(document.querySelectorAll("[data-section-gate-target]"));
+    if (!arrowTrigger || !gateTargets.length) return;
+
+    const aboutSection = document.getElementById("about");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const targetById = new Map(
+      gateTargets
+        .filter((item) => item.id)
+        .map((item) => [item.id, item])
+    );
+    const groupByHash = new Map([
+      [
+        "#about",
+        {
+          targets: ["about-profile-panel", "about-resume-panel"].map((id) => targetById.get(id)).filter(Boolean),
+          scrollTarget: aboutSection
+        }
+      ],
+      [
+        "#projects",
+        {
+          targets: ["projects", "project-list"].map((id) => targetById.get(id)).filter(Boolean),
+          scrollTarget: targetById.get("projects") || null
+        }
+      ],
+      [
+        "#actual-projects",
+        {
+          targets: ["actual-projects"].map((id) => targetById.get(id)).filter(Boolean),
+          scrollTarget: targetById.get("actual-projects") || null
+        }
+      ],
+      [
+        "#cultural-products",
+        {
+          targets: ["cultural-products"].map((id) => targetById.get(id)).filter(Boolean),
+          scrollTarget: targetById.get("cultural-products") || null
+        }
+      ]
+    ].filter(([, group]) => group.targets.length));
+    const revealItemsByTarget = new Map(
+      gateTargets.map((item) => {
+        const nested = Array.from(item.querySelectorAll(".reveal"));
+        const revealItems = Array.from(new Set(
+          item.classList.contains("reveal") ? [item, ...nested] : nested
+        ));
+        return [item, revealItems];
+      })
+    );
+    let visibleTargetIds = new Set();
+    let gateTween = null;
+
+    const updateArrowState = () => {
+      const expanded = visibleTargetIds.size > 0;
+      arrowTrigger.setAttribute("aria-expanded", expanded ? "true" : "false");
+      arrowTrigger.classList.toggle("is-open", expanded);
+    };
+
+    const getVisibleTargets = () => gateTargets.filter((item) => visibleTargetIds.has(item.id));
+
+    const getRevealItemsForTargets = (targets) => Array.from(new Set(
+      targets.flatMap((item) => revealItemsByTarget.get(item) || [])
+    ));
+
+    const syncRevealItemsVisible = (targets) => {
+      const revealItems = getRevealItemsForTargets(targets);
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      if (gsapLib && revealItems.length) {
+        gsapLib.set(revealItems, {
+          autoAlpha: 1,
+          y: 0
+        });
+      }
+    };
+
+    const scrollToTarget = (target, behavior) => {
+      if (!target) return;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          target.scrollIntoView({
+            behavior,
+            block: "start"
+          });
+        });
+      });
+    };
+
+    const finalizeTransition = (targets, scrollTarget, scrollBehavior) => {
+      visibleTargetIds = new Set(targets.map((item) => item.id));
+      updateArrowState();
+      ScrollTriggerLib?.refresh?.();
+      scrollToTarget(scrollTarget, scrollBehavior);
+    };
+
+    const hideGateTargets = (targets) => {
+      targets.forEach((item) => {
+        item.classList.add("section-gate-hidden");
+        item.setAttribute("aria-hidden", "true");
+      });
+    };
+
+    const showGateTargets = (targets) => {
+      targets.forEach((item) => {
+        item.classList.remove("section-gate-hidden");
+        item.removeAttribute("aria-hidden");
+      });
+    };
+
+    const setVisibleTargets = ({ targets = [], animate = true, scrollTarget = null, scrollBehavior = "smooth" } = {}) => {
+      const nextTargets = Array.from(new Set(targets));
+      const nextTargetIds = new Set(nextTargets.map((item) => item.id));
+      const currentTargets = getVisibleTargets();
+      const targetsToShow = nextTargets.filter((item) => !visibleTargetIds.has(item.id));
+      const targetsToHide = currentTargets.filter((item) => !nextTargetIds.has(item.id));
+      const touchedTargets = Array.from(new Set([...targetsToShow, ...targetsToHide]));
+
+      gateTween?.kill?.();
+
+      if (!gsapLib || prefersReducedMotion.matches || !animate) {
+        hideGateTargets(targetsToHide);
+        showGateTargets(targetsToShow);
+        syncRevealItemsVisible(nextTargets);
+        if (gsapLib && touchedTargets.length) {
+          gsapLib.set(touchedTargets, { clearProps: "opacity,transform,filter" });
+        }
+        finalizeTransition(nextTargets, scrollTarget, animate ? scrollBehavior : "auto");
+        return;
+      }
+
+      if (!targetsToShow.length && !targetsToHide.length) {
+        finalizeTransition(nextTargets, scrollTarget, scrollBehavior);
+        return;
+      }
+
+      showGateTargets(targetsToShow);
+      syncRevealItemsVisible(nextTargets);
+      if (targetsToShow.length) {
+        gsapLib.set(targetsToShow, {
+          autoAlpha: 0,
+          y: 36,
+          scale: 0.965,
+          filter: "blur(12px)",
+          transformOrigin: "50% 0%"
+        });
+      }
+
+      gateTween = gsapLib.timeline({
+        onComplete: () => {
+          hideGateTargets(targetsToHide);
+          if (touchedTargets.length) {
+            gsapLib.set(touchedTargets, { clearProps: "opacity,transform,filter" });
+          }
+          gateTween = null;
+          finalizeTransition(nextTargets, scrollTarget, scrollBehavior);
+        }
+      });
+
+      if (targetsToHide.length) {
+        gateTween.to(targetsToHide, {
+          autoAlpha: 0,
+          y: 18,
+          scale: 0.982,
+          filter: "blur(7px)",
+          duration: 0.26,
+          stagger: {
+            each: 0.035,
+            from: "end"
+          },
+          ease: "power2.inOut",
+          overwrite: true
+        }, 0);
+      }
+
+      if (targetsToShow.length) {
+        gateTween.to(targetsToShow, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.74,
+          stagger: 0.09,
+          ease: "expo.out",
+          overwrite: true
+        }, targetsToHide.length ? 0.08 : 0);
+      }
+    };
+
+    const collapseAllSections = ({ animate = true, scrollTarget = aboutSection, scrollBehavior = "smooth" } = {}) => {
+      if (groupByHash.has(window.location.hash)) {
+        window.history.pushState(null, "", "#about");
+      }
+      setVisibleTargets({
+        targets: [],
+        animate,
+        scrollTarget,
+        scrollBehavior
+      });
+    };
+
+    const showSectionGroup = (hash, options = {}) => {
+      const group = groupByHash.get(hash);
+      if (!group) return false;
+
+      setVisibleTargets({
+        targets: group.targets,
+        scrollTarget: group.scrollTarget,
+        ...options
+      });
+      return true;
+    };
+
+    hideGateTargets(gateTargets);
+    updateArrowState();
+
+    arrowTrigger.addEventListener("click", () => {
+      if (visibleTargetIds.size > 0) {
+        collapseAllSections({
+          scrollTarget: aboutSection
+        });
+        return;
+      }
+
+      setVisibleTargets({
+        targets: gateTargets
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const hashLink = event.target.closest('a[href^="#"]');
+      if (!hashLink) return;
+
+      const href = hashLink.getAttribute("href");
+      if (!groupByHash.has(href)) return;
+
+      event.preventDefault();
+      if (window.location.hash !== href) {
+        window.history.pushState(null, "", href);
+      }
+      showSectionGroup(href);
+    });
+
+    window.addEventListener("hashchange", () => {
+      showSectionGroup(window.location.hash);
+    });
+
+    if (groupByHash.has(window.location.hash)) {
+      showSectionGroup(window.location.hash, {
+        animate: false,
+        scrollBehavior: "auto"
+      });
+    }
+  }
+
   function initGsapMotion() {
     const gsapLib = window.gsap;
+    const ScrollTriggerLib = window.ScrollTrigger;
+    if (gsapLib && ScrollTriggerLib) {
+      gsapLib.registerPlugin(ScrollTriggerLib);
+    }
+
+    initSectionGate(gsapLib, ScrollTriggerLib);
+
     if (!gsapLib) {
       initFallbackReveal();
       return;
-    }
-
-    const ScrollTriggerLib = window.ScrollTrigger;
-    if (ScrollTriggerLib) {
-      gsapLib.registerPlugin(ScrollTriggerLib);
     }
 
     const heroCopy = document.querySelector(".hero-copy");

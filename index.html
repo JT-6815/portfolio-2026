@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>田婧 | 2026 Industrial Design Portfolio</title>
   <meta name="description" content="田婧 2026 工业设计作品集网站，包含 CAMPGO 箱旅随行、声迹模块化音乐控制器、竹间 HiFi 音响系统、视障人群专用集成灶、Manta Matrix 智能救援浮岛系统与模块化太空垃圾清洁机器人。">
-  <link rel="stylesheet" href="styles.css?v=20260615-about-fix2">
+  <link rel="stylesheet" href="styles.css?v=20260615-arrow-gate4">
 </head>
 <body>
   <div class="site-grain" aria-hidden="true"></div>
@@ -92,16 +92,22 @@
 
           <div class="about-page-bottom">
             <span class="about-page-hello about-page-drop">Hello!</span>
-            <span class="about-page-arrow about-page-drop">
+            <button
+              class="about-page-arrow about-page-drop"
+              type="button"
+              data-section-gate-trigger
+              aria-expanded="false"
+              aria-controls="about-profile-panel about-resume-panel projects project-list actual-projects cultural-products"
+              aria-label="展开关于我与项目内容">
               <span class="about-page-arrow-line about-page-arrow-diagonal"></span>
               <span class="about-page-arrow-line about-page-arrow-base"></span>
               <span class="about-page-arrow-line about-page-arrow-side"></span>
-            </span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="about-visual reveal">
+      <div class="about-visual reveal" id="about-profile-panel" data-section-gate-target>
         <div class="portrait-frame">
           <span class="portrait-paper" aria-hidden="true"></span>
           <img class="portrait-blob" src="assets/portrait-card-blob.svg?v=20260611-static1" alt="" aria-hidden="true">
@@ -135,7 +141,7 @@
         </article>
       </div>
 
-      <div class="about-copy reveal">
+      <div class="about-copy reveal" id="about-resume-panel" data-section-gate-target>
         <p class="eyebrow">About Me</p>
         <p class="about-lead">
           按作品集简历页的结构整理，集中展示我的能力方向、获奖经历、实践经验与基本信息。
@@ -283,7 +289,7 @@
       </div>
     </section>
 
-    <section class="section-heading section" id="projects">
+    <section class="section-heading section" id="projects" data-section-gate-target>
       <div class="section-heading-copy reveal">
         <p class="eyebrow">Selected Works</p>
         <h2>项目目录</h2>
@@ -294,9 +300,9 @@
       </div>
     </section>
 
-    <section class="project-list section" id="project-list" aria-live="polite"></section>
+    <section class="project-list section" id="project-list" aria-live="polite" data-section-gate-target></section>
 
-    <section class="visual section" id="actual-projects">
+    <section class="visual section" id="actual-projects" data-section-gate-target>
       <div class="visual-head reveal">
         <p class="eyebrow">Actual Projects</p>
         <h2>实际项目</h2>
@@ -306,7 +312,7 @@
       <div class="visual-grid" id="actual-project-grid"></div>
     </section>
 
-    <section class="visual section" id="cultural-products">
+    <section class="visual section" id="cultural-products" data-section-gate-target>
       <div class="visual-head reveal">
         <p class="eyebrow">Cultural Projects</p>
         <h2>文创项目</h2>
@@ -381,7 +387,7 @@
   <script src="content/site-data.js?v=20260615-bamboo-pages1"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=20260615-about-fix2" defer></script>
+  <script src="script.js?v=20260615-arrow-gate4" defer></script>
 </body>
 </html>
 
