@@ -2242,6 +2242,7 @@ textarea {
 
 .viewer {
   z-index: 44;
+  padding: 4px;
 }
 
 .viewer.is-hidden {
@@ -2256,15 +2257,16 @@ textarea {
 }
 
 .viewer-panel {
-  --viewer-stage-height: clamp(500px, calc(100vh - 212px), 910px);
-  width: min(1390px, calc(100vw - 24px));
-  grid-template-columns: minmax(96px, 120px) minmax(0, 1fr);
+  --viewer-stage-height: clamp(540px, calc(100vh - 178px), 950px);
+  width: min(1500px, calc(100vw - 8px));
+  max-height: calc(100vh - 8px);
+  grid-template-columns: minmax(168px, 207px) minmax(0, 1fr);
   grid-template-areas:
     "head head"
     "thumbs stage";
   align-items: start;
-  gap: 12px 14px;
-  padding: 18px 18px 16px;
+  gap: 8px 10px;
+  padding: 10px 10px 8px;
   border-radius: 24px;
 }
 
@@ -2274,8 +2276,8 @@ textarea {
 
 .viewer-head {
   grid-area: head;
-  gap: 5px;
-  padding-right: 54px;
+  gap: 3px;
+  padding-right: 46px;
 }
 
 .viewer-head .eyebrow {
@@ -2301,7 +2303,7 @@ textarea {
   position: relative;
   display: block;
   min-width: 0;
-  padding: 0 clamp(24px, 2.4vw, 40px);
+  padding: 0 1px;
 }
 
 .viewer-nav {
