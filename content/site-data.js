@@ -60,7 +60,7 @@
         "展示书架箱、落地箱与一体组合等多种使用形态"
       ],
       preview: "web-renders/page-29.jpg",
-      pages: [29, 30, 31, 32, 33, 34, 35]
+      pages: [29, 30, 31, 32, 33, 34, 35, 36, 37]
     },
     {
       id: "accessible-stove",

@@ -2256,9 +2256,15 @@ textarea {
 }
 
 .viewer-panel {
-  width: min(1280px, calc(100vw - 24px));
-  gap: 16px;
-  padding: 24px;
+  --viewer-stage-height: clamp(430px, calc(100vh - 240px), 860px);
+  width: min(1340px, calc(100vw - 24px));
+  grid-template-columns: minmax(104px, 132px) minmax(0, 1fr);
+  grid-template-areas:
+    "head head"
+    "thumbs stage";
+  align-items: start;
+  gap: 14px 16px;
+  padding: 20px 20px 18px;
 }
 
 .viewer-close {
@@ -2266,7 +2272,9 @@ textarea {
 }
 
 .viewer-head {
+  grid-area: head;
   gap: 12px;
+  padding-right: 54px;
 }
 
 .viewer-head h3 {
@@ -2281,13 +2289,17 @@ textarea {
 }
 
 .viewer-stage {
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) 58px;
-  gap: 12px;
-  align-items: center;
+  grid-area: stage;
+  position: relative;
+  display: block;
+  min-width: 0;
+  padding: 0 clamp(36px, 3.4vw, 58px);
 }
 
 .viewer-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
   width: 58px;
   height: 58px;
   border: 0;
@@ -2296,6 +2308,15 @@ textarea {
   color: var(--ink-deep);
   font-size: 1.5rem;
   cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.viewer-prev {
+  left: 0;
+}
+
+.viewer-next {
+  right: 0;
 }
 
 .viewer-nav:disabled {
@@ -2304,29 +2325,43 @@ textarea {
 }
 
 .viewer-figure {
-  margin: 0;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 0;
-  max-height: calc(100vh - 240px);
-  overflow: auto;
+  height: var(--viewer-stage-height);
+  max-height: var(--viewer-stage-height);
+  overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(241, 93, 51, 0.1);
   background: rgba(255, 255, 255, 0.65);
 }
 
 .viewer-figure img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .viewer-thumbs {
+  grid-area: thumbs;
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+  height: var(--viewer-stage-height);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 4px 2px 0;
 }
 
 .thumb {
-  flex: 0 0 140px;
+  flex: 0 0 auto;
+  width: 100%;
   overflow: hidden;
   padding: 0;
   border: 2px solid transparent;
@@ -2348,9 +2383,9 @@ textarea {
 
 .thumb-label {
   display: block;
-  padding: 10px 12px;
+  padding: 8px 10px 10px;
   color: var(--ink-deep);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 800;
   text-align: left;
 }
@@ -2756,11 +2791,18 @@ textarea {
   }
 
   .viewer-panel {
-    padding: 18px;
+    --viewer-stage-height: clamp(360px, calc(100vh - 220px), 700px);
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 16px 14px;
+  }
+
+  .viewer-head {
+    padding-right: 44px;
   }
 
   .viewer-stage {
-    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    padding: 0 34px;
   }
 
   .viewer-nav {
@@ -2769,7 +2811,7 @@ textarea {
   }
 
   .thumb {
-    flex-basis: 110px;
+    width: 100%;
   }
 }
 
@@ -2882,8 +2924,27 @@ textarea {
     padding: 10px;
   }
 
+  .viewer-panel {
+    --viewer-stage-height: clamp(300px, calc(100vh - 210px), 560px);
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .viewer-stage {
+    padding: 0 28px;
+  }
+
+  .viewer-thumbs {
+    gap: 8px;
+  }
+
   .viewer-head {
     padding-right: 40px;
+  }
+
+  .thumb-label {
+    padding: 6px 8px 8px;
+    font-size: 0.76rem;
   }
 }
 
