@@ -2256,15 +2256,16 @@ textarea {
 }
 
 .viewer-panel {
-  --viewer-stage-height: clamp(430px, calc(100vh - 240px), 860px);
-  width: min(1340px, calc(100vw - 24px));
-  grid-template-columns: minmax(104px, 132px) minmax(0, 1fr);
+  --viewer-stage-height: clamp(500px, calc(100vh - 212px), 910px);
+  width: min(1390px, calc(100vw - 24px));
+  grid-template-columns: minmax(96px, 120px) minmax(0, 1fr);
   grid-template-areas:
     "head head"
     "thumbs stage";
   align-items: start;
-  gap: 14px 16px;
-  padding: 20px 20px 18px;
+  gap: 12px 14px;
+  padding: 18px 18px 16px;
+  border-radius: 24px;
 }
 
 .viewer-close {
@@ -2273,19 +2274,26 @@ textarea {
 
 .viewer-head {
   grid-area: head;
-  gap: 12px;
+  gap: 5px;
   padding-right: 54px;
 }
 
+.viewer-head .eyebrow {
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+}
+
 .viewer-head h3 {
-  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
-  line-height: 1.12;
+  font-size: clamp(0.67rem, 1.075vw, 0.98rem);
+  line-height: 1.02;
 }
 
 .viewer-status {
   margin: 0;
   color: var(--muted);
+  font-size: clamp(0.33rem, 0.525vw, 0.445rem);
   font-weight: 800;
+  line-height: 1;
 }
 
 .viewer-stage {
@@ -2293,7 +2301,7 @@ textarea {
   position: relative;
   display: block;
   min-width: 0;
-  padding: 0 clamp(36px, 3.4vw, 58px);
+  padding: 0 clamp(24px, 2.4vw, 40px);
 }
 
 .viewer-nav {
@@ -2328,14 +2336,14 @@ textarea {
   width: fit-content;
   max-width: 100%;
   margin: 0 auto;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   min-height: 0;
   height: var(--viewer-stage-height);
   max-height: var(--viewer-stage-height);
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: 18px;
   border: 1px solid rgba(241, 93, 51, 0.1);
   background: rgba(255, 255, 255, 0.65);
 }
