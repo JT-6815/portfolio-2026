@@ -800,7 +800,32 @@
     };
   }
 
-  function openOverlay(overlay) {
+  function getViewerLaunchState(panel, trigger) {
+    if (!panel || !trigger || typeof trigger.getBoundingClientRect !== "function") {
+      return {
+        x: 0,
+        y: 22,
+        transformOrigin: "50% 0%"
+      };
+    }
+
+    const panelRect = panel.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const panelCenterX = panelRect.left + (panelRect.width / 2);
+    const panelCenterY = panelRect.top + (panelRect.height / 2);
+    const triggerCenterX = triggerRect.left + (triggerRect.width / 2);
+    const triggerCenterY = triggerRect.top + (triggerRect.height / 2);
+    const rawOriginX = ((triggerCenterX - panelRect.left) / panelRect.width) * 100;
+    const originX = Math.min(84, Math.max(16, rawOriginX));
+
+    return {
+      x: (triggerCenterX - panelCenterX) * 0.24,
+      y: (triggerCenterY - panelCenterY) * 0.22 + 18,
+      transformOrigin: `${originX}% 0%`
+    };
+  }
+
+  function openOverlay(overlay, options = {}) {
     if (!overlay || !overlay.classList.contains("is-hidden")) return;
     const { panel, backdrop } = getOverlayParts(overlay);
     overlay.classList.remove("is-hidden");
@@ -808,14 +833,39 @@
 
     if (!overlayGsap || !panel || !backdrop) return;
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     overlayGsap.killTweensOf([panel, backdrop]);
+
+    if (overlay === viewer) {
+      const launch = getViewerLaunchState(panel, options.trigger || null);
+      overlayGsap.set(backdrop, { autoAlpha: 0 });
+      overlayGsap.set(panel, {
+        autoAlpha: 0,
+        x: launch.x,
+        y: launch.y,
+        scale: reduceMotion ? 0.985 : 0.92,
+        filter: reduceMotion ? "blur(0px)" : "blur(14px)",
+        transformOrigin: launch.transformOrigin
+      });
+      overlayGsap.timeline({ defaults: { ease: reduceMotion ? "power2.out" : "expo.out" } })
+        .to(backdrop, { autoAlpha: 1, duration: reduceMotion ? 0.16 : 0.22 }, 0)
+        .to(panel, {
+          autoAlpha: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: reduceMotion ? 0.22 : 0.58
+        }, 0.03);
+      return;
+    }
+
     overlayGsap.set(backdrop, { autoAlpha: 0 });
     overlayGsap.set(panel, { autoAlpha: 0, y: 26, scale: 0.985 });
     overlayGsap.timeline({ defaults: { ease: "power3.out" } })
       .to(backdrop, { autoAlpha: 1, duration: 0.22 }, 0)
       .to(panel, { autoAlpha: 1, y: 0, scale: 1, duration: 0.42 }, 0.04);
   }
-
   function closeOverlay(overlay) {
     if (!overlay || overlay.classList.contains("is-hidden")) return;
     const { panel, backdrop } = getOverlayParts(overlay);
@@ -877,7 +927,7 @@
     `).join("");
   }
 
-  function openViewerWithEntry(entry, page) {
+  function openViewerWithEntry(entry, page, trigger) {
     if (!entry || !Array.isArray(entry.pages) || !entry.pages.length) return;
 
     activeProject = {
@@ -890,15 +940,15 @@
 
     renderThumbs();
     updateViewer();
-    openOverlay(viewer);
+    openOverlay(viewer, { trigger });
   }
 
-  function openViewer(projectId, page) {
-    openViewerWithEntry(getProjectById(projectId), page);
+  function openViewer(projectId, page, trigger) {
+    openViewerWithEntry(getProjectById(projectId), page, trigger);
   }
 
-  function openViewerForCard(cardId) {
-    openViewerWithEntry(getCardById(cardId));
+  function openViewerForCard(cardId, trigger) {
+    openViewerWithEntry(getCardById(cardId), undefined, trigger);
   }
 
   function closeViewer() {
@@ -922,7 +972,7 @@
 
     const cardButton = event.target.closest("[data-open-card]");
     if (cardButton) {
-      openViewerForCard(cardButton.getAttribute("data-open-card"));
+      openViewerForCard(cardButton.getAttribute("data-open-card"), cardButton);
       return;
     }
 
@@ -930,7 +980,7 @@
     if (openButton) {
       const projectId = openButton.getAttribute("data-open-project");
       const page = Number(openButton.getAttribute("data-open-page")) || undefined;
-      openViewer(projectId, page);
+      openViewer(projectId, page, openButton);
       return;
     }
 
